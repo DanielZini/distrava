@@ -11,8 +11,6 @@ import {
     WrapForm,
 } from './styles';
 
-
-
 const Login = ({ navigation }) => {
 
     doLogin = () => {
@@ -39,10 +37,6 @@ const Login = ({ navigation }) => {
             <ButtonLink>Ainda não possui conta?</ButtonLink>
         </Container>
     )
-}
-
-Login.navigationOptions = {
-    title: 'Login',
 }
 
 export default Login

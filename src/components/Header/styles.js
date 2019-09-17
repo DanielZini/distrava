@@ -7,7 +7,9 @@ export const Container = styled.View`
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    /* background-color: ${cmStyles.cl.primary}; */
+    background-color: #FFFFFF;
+    position: relative;
+    z-index:2;
 `
 export const ItemGrid = styled.View`
     flex: 1;

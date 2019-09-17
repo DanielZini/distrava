@@ -1,14 +1,51 @@
 import Login from './screens/Login';
 import Main from './screens/Main';
+import Match from './screens/Match';
+import Profile from './screens/Profile';
+import Header from './components/Header';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createMaterialTopTabNavigator   } from 'react-navigation-tabs';
 
-const Routes = createAppContainer(
-    createSwitchNavigator({
-        Login,
-        Main,
-    })
-);
+const HeaderScreens = createMaterialTopTabNavigator (
+    {
+        Profile: {
+            name: 'Perfil',
+            screen: Profile,
+        },
+        Main: {
+            name: 'Home',
+            screen: Main,
+        },
+        Match: {
+            name: 'Troca',
+            screen: Match,
+        },
+    },
+    {
+        tabBarComponent: Header,
+        initialRouteName: 'Main',
+    },
+)
 
-export default Routes;
+const HeaderRouts = createAppContainer(HeaderScreens);
+
+const LoginScreen = createSwitchNavigator (
+    {
+        Login: {
+            name: 'Login',
+            screen: Login,
+        },
+        Main: {
+            name: 'Home',
+            screen: HeaderRouts,
+        },
+    },
+    {
+        initialRouteName: 'Login',
+    },
+)
+
+const LoginRouts = createAppContainer(LoginScreen);
+
+export { LoginRouts };
