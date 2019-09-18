@@ -15,16 +15,16 @@ export const Container = styled.View`
 export const Card = styled.View`
     position: relative;
     max-width:100%;
-    max-height: 100%;
+    max-height: 500px;
     width: 90%;
-    height: 100%;
+    height: 95%;
     max-width: 300px;
     max-height: 700px;
     overflow: hidden;
     border-radius: 10px;
     background-color: #f1f1f1;
     border: 3px solid #FFFFFF;
-    shadow-color: #000;
+    shadow-color: #000000;
     elevation: 7px;
 `
 export const GameImage = styled.Image`
