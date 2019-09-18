@@ -8,12 +8,11 @@ export const Container = styled.View`
     align-items: center;
     background-color: ${props => props.btColor || cmStyles.cl.primary};
     border-radius: 6px;
-    margin-bottom: 15px;
     flex-direction: row;
 `
 
 export const TextButton = styled.Text`
     font-family: ${cmStyles.fontBold};
     font-size: 20px;
-    color: ${props => props.txtColor || '#FFFFFF'};;
+    color: ${props => props.txtColor || '#FFFFFF'};
 `

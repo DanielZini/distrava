@@ -20,4 +20,5 @@ export const Logo = styled.Image`
 `
 export const WrapForm = styled.View`
     width: 80%;
+    margin-bottom: 15px;
 `

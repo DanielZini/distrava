@@ -5,7 +5,7 @@ export default {
     cl: {
         primary: '#E04825',
         second: '#F5851F',
-        mainText: '#222222',
-        subText: '#555555',
+        primaryRGB: '224, 72, 37',
+        secondRGB: '245, 133, 31',
     }
 }

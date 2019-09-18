@@ -9,15 +9,16 @@ export const Container = styled.View`
 export const Content = styled.View`
     flex: 1;
     flex-wrap: wrap;
-    justify-content:center;
     align-content: center;
     align-items: center;
     padding: 10px;
     position: relative;
 `
 export const Footer = styled.View`
-    height: 80px;    
+    height: 90px;
     flex-direction: row;
+    align-items: center;
+    align-content: center;
     width: 90%;
     margin: 0 auto;
 `

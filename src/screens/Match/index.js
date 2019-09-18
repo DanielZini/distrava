@@ -1,34 +1,45 @@
 import React from 'react';
+import SrollView from 'react-native';
+import gameImg from '../../../assets/img/exemples/cover_2x.jpg';
 import defaultProfile from '../../../assets/img/defaultPerson.png';
-import ButtonMenu from '../../components/ButtonMenu';
+import ItemMatch from '../../components/ItemMatch';
 import { 
     Container,
-    Content,
-    WrapImg,
-    ImgProfile,
-    Name,
-    Menu,
 } from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Match = ({ navigation }) => {
 
     return(
-        <Container>
-            <Content>
-                <WrapImg>
-                    <ImgProfile source={defaultProfile}/>
-                </WrapImg>
-                <Name>Daniel Zini da Silva</Name>
-
-                <Menu>
-                    <ButtonMenu icon='gamepad'>Meus Jogos</ButtonMenu>
-                    <ButtonMenu icon='edit'>Editar Perfil</ButtonMenu>
-                    <ButtonMenu icon='settings'>Preferências</ButtonMenu>
-                    <ButtonMenu icon='copyright' border='0px'>Sobre</ButtonMenu>
-                </Menu>
-            </Content>
-            
-        </Container>
+        <ScrollView>
+            <Container>
+                <ItemMatch 
+                    myGame={gameImg}
+                    matchGame={gameImg}
+                    photoProfile={defaultProfile}
+                    nameProfile='Daniel Zini da Silva'
+                    inNegotiation={true}
+                    negotiationSuccess={null}
+                    />
+                <ItemMatch 
+                    myGame={gameImg}
+                    matchGame={gameImg}
+                    photoProfile={defaultProfile}
+                    nameProfile='Daniel Zini da Silva'
+                    inNegotiation={false}
+                    negotiationSuccess={true}
+                    />
+                <ItemMatch 
+                    myGame={gameImg}
+                    matchGame={gameImg}
+                    photoProfile={defaultProfile}
+                    nameProfile='Daniel Zini da Silva'
+                    inNegotiation={false}
+                    negotiationSuccess={false}
+                    />
+                
+            </Container>
+        </ScrollView>
     )
 }
 

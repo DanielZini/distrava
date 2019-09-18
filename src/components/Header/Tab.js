@@ -16,7 +16,7 @@ const Tab = ({ focused, onPress, routeName }) => {
 
     switch (routeName) {
         case 'Profile':
-            icon = <Icon name='person' size={35} color={focused ? "#FFFFFF" : "#999999"} />;
+            icon = <Icon name='person' size={30} color={focused ? "#FFFFFF" : "#999999"} />;
             mainSymbol = false;
             break;
 
@@ -26,7 +26,7 @@ const Tab = ({ focused, onPress, routeName }) => {
             break;
 
         case 'Match':
-            icon = <Icon name='chat' size={35} color={focused ? "#FFFFFF" : "#999999"} />;
+            icon = <Icon name='chat' size={30} color={focused ? "#FFFFFF" : "#999999"} />;
             mainSymbol = false;
             break;
     } 

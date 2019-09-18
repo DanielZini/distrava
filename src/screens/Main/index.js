@@ -25,10 +25,8 @@ const Main = ({ navigation }) =>  {
             </Content>
             <Footer>
                 <WrapButton>
-                    <Button 
-                        btColor="#CCC"
-                        txtColor="#333"
-                        custom={true}>
+                    <Button custom={true}
+                        btColor="#AAA">
                         <TextButton>Próximo</TextButton>
                         <Icon name='trending-flat' color='#FFF' size={35} />
                     </Button>

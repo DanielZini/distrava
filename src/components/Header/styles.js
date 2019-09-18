@@ -2,12 +2,13 @@ import cmStyles from '../../commonStyles';
 import styled from 'styled-components';
 
 export const Container = styled.View`
-    height: 80px;
+    height: 95px;
     width: 100%;
     align-items: center;
     justify-content: center;
+    align-items: center;
     flex-direction: row;
-    background-color: #FFFFFF;
+    background-color: ${props => props.tabNave === 'Match' ? '#f5f5f5' : '#FFFFFF'};
     position: relative;
     z-index:2;
 `
@@ -15,12 +16,11 @@ export const ItemGrid = styled.View`
     flex: 1;
     align-items: center;
     justify-content: center;
-    padding: 0 15px;
+    padding: 0 30px;
 `
 export const ButtonMenu = styled.View`
-    width: ${props => props.symbol ? '75px' : '55px'};
-    height: ${props => props.symbol ? '75px' : '55px'};
-    margin-top: ${props => props.symbol ? '40px' : '15px'};
+    width: ${props => props.symbol ? '65px' : '50px'};
+    height: ${props => props.symbol ? '65px' : '50px'};
     border-radius: 100px;
     shadow-color: #000;
     overflow: hidden;

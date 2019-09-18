@@ -24,7 +24,7 @@ const HeaderScreens = createMaterialTopTabNavigator (
     },
     {
         tabBarComponent: Header,
-        initialRouteName: 'Main',
+        initialRouteName: 'Match',
     },
 )
 
@@ -48,4 +48,4 @@ const LoginScreen = createSwitchNavigator (
 
 const LoginRouts = createAppContainer(LoginScreen);
 
-export { LoginRouts };
+export { HeaderRouts, LoginRouts };

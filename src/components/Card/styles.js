@@ -17,7 +17,7 @@ export const Card = styled.View`
     max-width:100%;
     max-height: 100%;
     width: 90%;
-    height: 85%;
+    height: 100%;
     max-width: 300px;
     max-height: 700px;
     overflow: hidden;
@@ -25,7 +25,7 @@ export const Card = styled.View`
     background-color: #f1f1f1;
     border: 3px solid #FFFFFF;
     shadow-color: #000;
-    elevation: 8px;
+    elevation: 7px;
 `
 export const GameImage = styled.Image`
     position: relative;
