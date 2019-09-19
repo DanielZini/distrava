@@ -10,7 +10,6 @@ export const Container = styled.View`
     border-radius: 6px;
     flex-direction: row;
 `
-
 export const TextButton = styled.Text`
     font-family: ${cmStyles.fontBold};
     font-size: 20px;

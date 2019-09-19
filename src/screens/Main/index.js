@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import gameImg from '../../../assets/img/exemples/cover_2x.jpg';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
-import { 
+import {
     Container,
     Content,
     Footer,

@@ -1,7 +1,8 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import ButtonChat from '../../components/ButtonChat';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { TouchableOpacity } from 'react-native';
 import cmStyles from '../../commonStyles';
 import {
     Container,
@@ -13,27 +14,38 @@ import {
     Person,
     PersonPhoto,
     PersonName,
+    PersonAddress,
     WrapButtonChat,
 } from './styles';
 
 export default props => {
     return (
         <Container inNegotiation={props.inNegotiation}>
+            {props.inNegotiation ?
+            <TouchableOpacity onPress={props.doExchange}>
+                <WrapGames>
+                        <Game source={props.matchGame} />
+                        <WrapIcon>
+                                <IconExchange name='swap-horiz' />
+                        </WrapIcon>
+                        <Game source={props.myGame} />
+                </WrapGames>
+            </TouchableOpacity>
+            :
             <WrapGames>
                 <Game source={props.matchGame} />
-                {props.inNegotiation &&
-                <WrapIcon>
-                    <TouchableOpacity onPress={props.doExchange}>
-                        <IconExchange name='swap-horiz' />
-                    </TouchableOpacity>
-                </WrapIcon>
-                }
                 <Game source={props.myGame} />
             </WrapGames>
+            }
             <WrapChat>
                 <Person>
-                    <PersonPhoto source={props.photoProfile}/>
-                    <PersonName>{props.nameProfile}</PersonName>
+                    <View>
+                        <PersonPhoto source={props.photoProfile}/>
+                    </View>
+                    <View style={{flex:1,paddingHorizontal: 10, justifyContent: 'center'}}>
+                        <PersonName>{props.nameProfile}</PersonName>
+                        <PersonAddress>{props.addressProfile}</PersonAddress>
+                    </View>
                 </Person>
                 {props.inNegotiation ?
                     <WrapButtonChat>

@@ -3,26 +3,28 @@ import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const Container = styled.View`
-    padding: 15px;
+    padding: 10px;
     position: relative;
     background-color: #FFFFFF;
     shadow-color: #000;
-    elevation: ${props => props.inNegotiation ? '8px' : '0px'};
-    border-width: ${props => props.inNegotiation ? '0px' : '1px'};
-    border-color: #e5e5e5;
+    elevation: 3px;
+    /* elevation: ${props => props.inNegotiation ? '8px' : '0px'};
+    border-width: ${props => props.inNegotiation ? '0px' : '1px'}; */
+    /* border-width: 1px;
+    border-color: #e5e5e5; */
     border-radius: 10px;
     margin-bottom: 15px;
 `
 export const WrapGames = styled.View`
     width: 100%;
     justify-content: space-between;
-    flex-direction: row;
     position: relative;
     margin-bottom: 15px;
+    flex-direction: row;
 `
 export const Game = styled.Image`
     width: 48%;
-    height: 150px;
+    height: 170px;
     border-radius: 10px;
     overflow: hidden;
     resize-mode: cover;
@@ -31,11 +33,11 @@ export const WrapIcon = styled.View`
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     z-index: 2;
-    margin-left: -30px;
-    margin-top: -30px;
+    margin-left: -25px;
+    margin-top: -25px;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
@@ -43,7 +45,7 @@ export const WrapIcon = styled.View`
     background-color: rgba(${cmStyles.cl.secondRGB}, .9);
 `
 export const IconExchange = styled(Icon)`
-    font-size: 50px;
+    font-size: 40px;
     color: #FFFFFF;
 `
 export const WrapChat = styled.View`
@@ -67,14 +69,16 @@ export const PersonPhoto = styled.Image`
     resize-mode: cover;
 `
 export const PersonName = styled.Text`
-    flex: 1;
     font-family: ${cmStyles.fontBold};
     color: ${cmStyles.cl.primary};
     font-size: 17px;
-    line-height: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-    flex-wrap: wrap;
+    line-height: 18px;
+`
+export const PersonAddress = styled.Text`
+    font-family: ${cmStyles.fontRegular};
+    color: #333333;
+    font-size: 12px;
+    line-height: 15px;
 `
 export const WrapButtonChat = styled.View`
     width: 70px;

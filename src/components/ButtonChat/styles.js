@@ -2,7 +2,7 @@ import cmStyles from '../../commonStyles';
 import styled from 'styled-components';
 
 export const Container = styled.View`
-    width: 70px;
+    width: 60px;
     height: 50px;
     justify-content: center;
     align-items: center;
