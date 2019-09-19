@@ -8,9 +8,18 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    background-color: ${props => props.tabNave === 'Match' ? '#f5f5f5' : '#FFFFFF'};
+    background-color: ${props => props.screen === 'Match' ? '#f9f9f9' : '#FFFFFF'};
     position: relative;
     z-index:2;
+`
+export const BackgroundGray = styled.View`
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: ${props => props.bg};
 `
 export const ItemGrid = styled.View`
     flex: 1;

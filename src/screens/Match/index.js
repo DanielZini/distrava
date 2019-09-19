@@ -30,13 +30,17 @@ class Match extends Component {
                     closeModal={() => this.setModalVisible(false)}
                     title='Finalizar troca'>
 
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Button custom={true} marginHorizontal={5}>
-                            <Icon name='thumbs-o-up' size={30} color='#FFFFFF'/>
-                        </Button>
-                        <Button custom={true} btColor={cmStyles.cl.primary} mH='5px'>
-                            <Icon name='thumbs-o-down' size={30} color='#FFFFFF'/>
-                        </Button>
+                    <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={{width: '48%'}}>
+                            <Button custom={true}>
+                                <Icon name='handshake-o' size={30} color='#FFFFFF'/>
+                            </Button>
+                        </View>
+                        <View style={{ width: '48%' }}>
+                            <Button custom={true} btColor={cmStyles.cl.second}>
+                                <Icon name='thumbs-o-down' size={30} color='#FFFFFF'/>
+                            </Button>
+                        </View>
                     </View>
                 </CustomModal>
                 <Container>
@@ -67,7 +71,6 @@ class Match extends Component {
                         negotiationSuccess={false}
                         doExchange={null}
                         />
-    
                 </Container>
             </ScrollView>
         )

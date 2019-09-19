@@ -30,7 +30,7 @@ export const Content = styled.View`
     width: 80%;
     align-items: center;
     justify-content: center;
-    padding: 15px 30px;
+    padding: 15px;
     background-color: #FFFFFF;
     border-radius: 6px;
     position: relative;
