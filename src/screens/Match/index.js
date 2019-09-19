@@ -49,6 +49,7 @@ class Match extends Component {
                         matchGame={gameImg}
                         photoProfile={defaultProfile}
                         nameProfile='Daniel Zini da Silva'
+                        addressProfile='Indaiatuba/SP'
                         inNegotiation={true}
                         negotiationSuccess={null}
                         doExchange={() => this.setModalVisible(true)}
@@ -58,6 +59,7 @@ class Match extends Component {
                         matchGame={gameImg}
                         photoProfile={defaultProfile}
                         nameProfile='Daniel Zini da Silva'
+                        addressProfile='Indaiatuba/SP'
                         inNegotiation={false}
                         negotiationSuccess={true}
                         doExchange={null}
@@ -67,6 +69,7 @@ class Match extends Component {
                         matchGame={gameImg}
                         photoProfile={defaultProfile}
                         nameProfile='Daniel Zini da Silva'
+                        addressProfile='Indaiatuba/SP'
                         inNegotiation={false}
                         negotiationSuccess={false}
                         doExchange={null}

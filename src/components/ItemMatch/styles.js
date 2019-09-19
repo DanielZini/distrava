@@ -69,14 +69,16 @@ export const PersonPhoto = styled.Image`
     resize-mode: cover;
 `
 export const PersonName = styled.Text`
-    flex: 1;
     font-family: ${cmStyles.fontBold};
     color: ${cmStyles.cl.primary};
     font-size: 17px;
-    line-height: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-    flex-wrap: wrap;
+    line-height: 18px;
+`
+export const PersonAddress = styled.Text`
+    font-family: ${cmStyles.fontRegular};
+    color: #333333;
+    font-size: 12px;
+    line-height: 15px;
 `
 export const WrapButtonChat = styled.View`
     width: 70px;
