@@ -7,6 +7,8 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     background-color: ${props => props.btColor || cmStyles.cl.primary};
+    margin-left: ${props => props.marginHorizontal || '0px'};
+    margin-right: ${props => props.marginHorizontal || '0px'};
     border-radius: 6px;
     flex-direction: row;
 `

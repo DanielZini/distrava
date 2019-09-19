@@ -5,7 +5,7 @@ import { Container, TextButton } from './styles';
 export default props => {
     return (
         <TouchableOpacity onPress={props.onPress}>
-            <Container btColor={props.btColor}>
+            <Container btColor={props.btColor} marginHorizontal={props.mH}>
                 {!props.custom ?
                 <TextButton txtColor={props.txtColor}>{props.children}</TextButton>
                 : props.children }
