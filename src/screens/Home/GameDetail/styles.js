@@ -1,10 +1,9 @@
-import cmStyles from '../../commonStyles';
+import cmStyles from '../../../commonStyles';
 import styled from 'styled-components';
 
 export const Container = styled.View`
     width: 100%;
     height: 100%;
-    background-color: #FFFFFF;
 `
 export const Content = styled.View`
     flex: 1;
@@ -14,13 +13,10 @@ export const Content = styled.View`
     padding: 10px;
     position: relative;
 `
-export const Footer = styled.View`
-    height: 90px;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    width: 90%;
-    margin: 0 auto;
+export const GameImage = styled.Image`
+    width: 100%;
+    height: 100%;
+    resize-Mode: cover;
 `
 export const WrapButton = styled.View`
     flex: 1;

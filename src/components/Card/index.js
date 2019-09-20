@@ -12,7 +12,7 @@ export default props => {
     return (
         <Container style={{ zIndex: props.order}}>
             <Card>
-                <TouchableOpacity style={{width: '100%', height: '100%'}}>
+                <TouchableOpacity onPress={props.onPress} style={{width: '100%', height: '100%'}}>
                     <GameImage source={props.gameSrc} />
                     <WrapTitle
                         start={{ x: 0, y: 1 }}

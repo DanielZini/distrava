@@ -20,7 +20,7 @@ const Tab = ({ focused, onPress, routeName }) => {
             mainSymbol = false;
             break;
 
-        case 'Main':
+        case 'Home':
             icon =  <SymbolLogo source={focused ? symbol : symbolD} />;
             mainSymbol = true;
             break;
