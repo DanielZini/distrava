@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import gameImg from '../../../../assets/img/exemples/cover_2x.jpg';
+import cmStyles from '../../../commonStyles';
 import Card from '../../../components/Card';
 import Button from '../../../components/Button';
 import {
@@ -13,35 +13,48 @@ import {
 
 const Main = ({ navigation }) =>  {
 
-    const navigationScreen = (screen, name, photo) => {
-        navigation.navigate(screen, {
+    const navigationScreen = (name, photo, platform, ratingBox, ratingMedia, ratingManual) => {
+        navigation.navigate('GameDetail', {
             title: name,
             photo,
+            platform,
+            ratingBox,
+            ratingMedia,
+            ratingManual,
         });
     }
+
+    // config car game --------
+    let gameName = 'The Legend of Zelda: Ocarina of Time 3D'
+
+    let gameImageId = 'co1nl5';
+    const gameUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big_2x/' + gameImageId + '.jpg';
+
+    let platformImageId = 'pl6o';
+    const platformUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + platformImageId + '.png';
 
     return(
         <Container>
             <Content>
                 <Card 
-                    gameSrc={gameImg}
-                    title="The Legend of Zelda: Breath of the Wild" order={1}
-                    onPress={() => navigationScreen('GameDetail', 'The Legend of Zelda: Breath of the Wild', gameImg)} />
-                {/* <Card 
-                    gameSrc={gameImg}
-                    title="The Legend of Zelda: Breath of the Wild" order={2}
-                    onPress={() => navigationScreen('GameDetail')} /> */}
+                    gameSrc={gameUri}
+                    platformSrc={platformUri}
+                    title={gameName}
+                    order={1}
+                    onPress={() => navigationScreen(gameName, gameUri, platformUri, 5, 4, 1)} />
             </Content>
             <Footer>
                 <WrapButton>
-                    <Button custom={true}
-                        btColor="#AAA">
+                    <Button 
+                        custom={true}
+                        btColor={cmStyles.cl.second}>
                         <TextButton>Próximo</TextButton>
                         <Icon name='trending-flat' color='#FFF' size={35} />
                     </Button>
                 </WrapButton>
                 <WrapButton>
-                    <Button custom={true}>
+                    <Button 
+                        custom={true}>
                         <Icon name='swap-horiz' color='#FFF' size={35} />
                         <TextButton>Quero</TextButton>
                     </Button>

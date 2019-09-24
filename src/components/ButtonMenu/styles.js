@@ -9,7 +9,7 @@ export const Container = styled.View`
     flex-direction: row;
     padding: 5px 15px;
     border-bottom-width: ${props => props.hasBorder || '1px'};
-    border-color: #CCCCCC;
+    border-color: #f1f1f1;
 `
 
 export const TextButton = styled.Text`

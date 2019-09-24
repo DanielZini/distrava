@@ -9,6 +9,9 @@ export const Container = styled.View`
     background-color: ${props => props.btColor || cmStyles.cl.primary};
     border-radius: 6px;
     flex-direction: row;
+    border: 2px solid #FFF;
+    shadow-color: #000000;
+    elevation: 2px;
 `
 export const TextButton = styled.Text`
     font-family: ${cmStyles.fontBold};
