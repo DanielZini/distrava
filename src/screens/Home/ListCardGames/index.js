@@ -36,16 +36,16 @@ const Main = ({ navigation }) =>  {
     return(
         <Container>
             <Content>
-                <Card 
+                <Card
                     gameSrc={gameUri}
                     platformSrc={platformUri}
                     title={gameName}
                     order={1}
-                    onPress={() => navigationScreen(gameName, gameUri, platformUri, 5, 4, 1)} />
+                    onPress={navigationScreen(gameName, gameUri, platformUri, 5, 4, 1)} />
             </Content>
             <Footer>
                 <WrapButton>
-                    <Button 
+                    <Button
                         custom={true}
                         btColor={cmStyles.cl.second}>
                         <TextButton>Próximo</TextButton>
@@ -53,7 +53,7 @@ const Main = ({ navigation }) =>  {
                     </Button>
                 </WrapButton>
                 <WrapButton>
-                    <Button 
+                    <Button
                         custom={true}>
                         <Icon name='swap-horiz' color='#FFF' size={35} />
                         <TextButton>Quero</TextButton>

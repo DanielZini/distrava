@@ -20,7 +20,6 @@ const HomeStack = createStackNavigator(
         },
         GameDetail: {
             screen: GameDetail,
-            
         },
     },
     {

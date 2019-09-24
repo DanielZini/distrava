@@ -1,13 +1,15 @@
 import React from 'react';
-import { View } from 'react-native';
-import boxIcon from '../../../../assets/img/box.png';
+import { Text, TouchableOpacity } from 'react-native';
+import BackButton from '../../../components/BackButton';
 import cmStyles from '../../../commonStyles';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import {
     Container,
+    FullCard,
     WrapImage,
     GameImage,
+    WrapPlatform,
+    PlatformImage,
     Content,
     GameTitle,
     WrapRating,
@@ -23,11 +25,14 @@ class GameDetail extends React.Component {
             headerStyle: {
                 elevation: 0,
                 shadowOpacity: 0,
-                // backgroundColor: 'rgba(0, 0, 0, .8)',
+                height: 80,
+                // paddingHorizontal: 100,
+                // backgroundColor: cmStyles.cl.second,
                 // backgroundColor: 'rgba(' + cmStyles.cl.secondRGB + ', .8)',
             },
             headerTransparent: true,
             headerTintColor: '#FFFFFF',
+            headerLeft: <BackButton/>
         };
     };
 
@@ -43,16 +48,27 @@ class GameDetail extends React.Component {
         let ratingManual = navigation.getParam('ratingManual');
 
         return(
-            <ScrollView>
-                <Container>
+            <Container>
+                <FullCard>
+
                     <WrapImage>
                         <GameImage source={{ uri: photo}} />
                     </WrapImage>
-                    <Content>
+
+                    <WrapPlatform>
+                        <PlatformImage source={{ uri: platform }} />
+                    </WrapPlatform>
+
+                    <Content
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 0, y: 0 }}
+                        colors={['rgba(0,0,0,.9)', 'rgba(0,0,0,.0)']}>
+
                         <GameTitle>{title}</GameTitle>
+
                         <WrapRating>
                             <ItemRating noBg={true}>
-                                <GameImage source={{ uri: platform }} />
+                                
                             </ItemRating>
                             <ItemRating>
                                 <Label>Caixa</Label>
@@ -89,8 +105,9 @@ class GameDetail extends React.Component {
                             </ItemRating>
                         </WrapRating>
                     </Content>
-                </Container>
-            </ScrollView>
+
+                </FullCard>
+            </Container>
         )
     }
 }
