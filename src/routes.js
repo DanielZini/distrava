@@ -1,15 +1,29 @@
 import React from 'react'
-import Login from './screens/Login';
-import ListCardGames from './screens/Home/ListCardGames';
-import GameDetail from './screens/Home/GameDetail';
-import Match from './screens/Match';
-import Profile from './screens/Profile';
+import cmStyles from './commonStyles';
+
 import Header from './components/Header';
+import Login from './screens/Login';
+
+// Games card
+import GameDetail from './screens/Home/GameDetail';
+import ListCardGames from './screens/Home/ListCardGames';
+
+// Match
+import Match from './screens/Match';
+
+// Profile
+import MenuProfile from './screens/Profile/Menu';
+import GamesProfile from './screens/Profile/Games';
+import NewGame from './screens/Profile/NewGame';
+import EditProfile from './screens/Profile/Edit';
+import ConfigProfile from './screens/Profile/Config';
+import CopyrightProfile from './screens/Profile/Copyright';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator   } from 'react-navigation-tabs';
 
+// Home Stack Navigation -----------------------------
 const HomeStack = createStackNavigator(
     {
         ListCardGames: {
@@ -39,6 +53,45 @@ HomeStack.navigationOptions = ({ navigation }) => {
     };
 };
 
+// Profile Stack Navigation ---------------------------
+const ProfileStack = createStackNavigator(
+    {
+        MenuProfile: {
+            screen: MenuProfile,
+            navigationOptions: {
+                header: null,
+            },
+        },
+        GamesProfile,
+        GameDetail,
+        NewGame,
+        EditProfile,
+        ConfigProfile,
+        CopyrightProfile
+    },
+    {
+        initialRouteName: 'MenuProfile',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: cmStyles.cl.second,
+            },
+            headerTintColor: '#FFFFFF',
+        }
+    },
+);
+
+// esconde top tab bar quando abrir o stack navigation
+ProfileStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
+
+    return {
+        tabBarVisible,
+    };
+};
+
 export default createRoutes = createAppContainer(
         createSwitchNavigator(
             {
@@ -49,13 +102,13 @@ export default createRoutes = createAppContainer(
                 ),
                 App: createMaterialTopTabNavigator(
                     {
-                        Profile,
+                        Profile: ProfileStack,
                         Home: HomeStack,
                         Match,
                     },
                     {
                         tabBarComponent: Header,
-                        initialRouteName: 'Home',
+                        initialRouteName: 'Profile',
                     }
                 ),
             },

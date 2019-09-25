@@ -41,7 +41,7 @@ const Main = ({ navigation }) =>  {
                     platformSrc={platformUri}
                     title={gameName}
                     order={1}
-                    onPress={navigationScreen(gameName, gameUri, platformUri, 5, 4, 1)} />
+                    onPress={() => navigationScreen(gameName, gameUri, platformUri, 5, 4, 1)} />
             </Content>
             <Footer>
                 <WrapButton>

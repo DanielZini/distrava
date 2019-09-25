@@ -3,6 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import BackButton from '../../../components/BackButton';
 import cmStyles from '../../../commonStyles';
 import { AirbnbRating } from 'react-native-ratings';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
     Container,
     FullCard,
@@ -25,14 +26,13 @@ class GameDetail extends React.Component {
             headerStyle: {
                 elevation: 0,
                 shadowOpacity: 0,
-                height: 80,
-                // paddingHorizontal: 100,
+                // height: 80,
                 // backgroundColor: cmStyles.cl.second,
                 // backgroundColor: 'rgba(' + cmStyles.cl.secondRGB + ', .8)',
             },
             headerTransparent: true,
             headerTintColor: '#FFFFFF',
-            headerLeft: <BackButton/>
+            headerLeft: <BackButton marginL={15} marginT={34} onPress={() => navigation.goBack()} />
         };
     };
 
@@ -50,7 +50,6 @@ class GameDetail extends React.Component {
         return(
             <Container>
                 <FullCard>
-
                     <WrapImage>
                         <GameImage source={{ uri: photo}} />
                     </WrapImage>
@@ -59,17 +58,14 @@ class GameDetail extends React.Component {
                         <PlatformImage source={{ uri: platform }} />
                     </WrapPlatform>
 
-                    <Content
-                        start={{ x: 0, y: 1 }}
+                    <Content>
+                        {/* start={{ x: 0, y: 1 }}
                         end={{ x: 0, y: 0 }}
-                        colors={['rgba(0,0,0,.9)', 'rgba(0,0,0,.0)']}>
+                        colors={['rgba(0,0,0,.9)', 'rgba(0,0,0,.0)']}> */}
 
                         <GameTitle>{title}</GameTitle>
 
                         <WrapRating>
-                            <ItemRating noBg={true}>
-                                
-                            </ItemRating>
                             <ItemRating>
                                 <Label>Caixa</Label>
                                 <AirbnbRating
@@ -77,7 +73,7 @@ class GameDetail extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={ratingBox}
-                                    size={20}
+                                    size={14}
                                     showRating={false}
                                 />
                             </ItemRating>
@@ -88,7 +84,7 @@ class GameDetail extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={ratingMedia}
-                                    size={20}
+                                    size={14}
                                     showRating={false}
                                 />
                             </ItemRating>
@@ -99,7 +95,7 @@ class GameDetail extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={ratingManual}
-                                    size={20}
+                                    size={14}
                                     showRating={false}
                                 />
                             </ItemRating>

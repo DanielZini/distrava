@@ -1,6 +1,6 @@
 import React from 'react';
-import defaultProfile from '../../../assets/img/defaultPerson.png';
-import ButtonMenu from '../../components/ButtonMenu';
+import defaultProfile from '../../../../assets/img/defaultPerson.png';
+import ButtonMenu from '../../../components/ButtonMenu';
 import { 
     Container,
     Content,
@@ -10,7 +10,7 @@ import {
     Menu,
 } from './styles';
 
-const Profile = ({ navigation }) => {
+const Edit = ({ navigation }) => {
 
     return(
         <Container>
@@ -32,4 +32,4 @@ const Profile = ({ navigation }) => {
     )
 }
 
-export default Profile;
+export default Edit;

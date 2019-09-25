@@ -20,13 +20,10 @@ export default props => {
                 <TouchableOpacity onPress={props.onPress} style={{zIndex: 2,width: '100%', height: '100%'}}>
                     <GameImage source={{ uri: props.gameSrc }} />
 
-                    <WrapTitle
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 0, y: 0 }}
-                        colors={['rgba(0,0,0,1)', 'rgba(0,0,0,.0)']}>
-
+                    {/* <WrapTitle>
                         <Title>{props.title}</Title>
-                    </WrapTitle>
+                    </WrapTitle> */}
+
                     <WrapPlatform>
                         <LogoPlatform source={{ uri: props.platformSrc }} />
                     </WrapPlatform>

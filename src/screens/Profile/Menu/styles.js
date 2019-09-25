@@ -1,4 +1,4 @@
-import cmStyles from '../../commonStyles';
+import cmStyles from '../../../commonStyles';
 import styled from 'styled-components';
 
 export const Container = styled.View`
@@ -38,6 +38,6 @@ export const Name = styled.Text`
     font-family: ${cmStyles.fontBold};
     color: ${cmStyles.cl.primary};
 `
-export const Menu = styled.View`
+export const WrapMenu = styled.View`
     margin-top: 15px;
 `

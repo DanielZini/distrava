@@ -14,11 +14,9 @@ export const Container = styled.View`
 `
 export const Card = styled.View`
     position: relative;
-    max-width:100%;
-    max-height: 500px;
     width: 90%;
     height: 95%;
-    max-width: 300px;
+    max-width: 350px;
     max-height: 700px;
     overflow: hidden;
     border-radius: 10px;
@@ -34,23 +32,21 @@ export const GameImage = styled.Image`
     width:100%;
     height: 100%;
 `
-export const WrapTitle = styled(LinearGradient)`
+export const WrapTitle = styled.View`
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    top: 20%;
     z-index:2;
     justify-content:flex-end;
     align-items:flex-end;
 `
 export const Title = styled.Text`
-    width: 100%;
-    font-size: 22px;
-    color: #FFFFFF;
-    font-family: ${cmStyles.fontLight};
-    padding: 20px;
-    text-align: center;
+    font-family: ${cmStyles.fontRegular};
+    font-size: 16px;
+    color: ${cmStyles.cl.primary};
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, .85);
 `
 export const WrapPlatform = styled.View`
     position: absolute;
@@ -60,7 +56,7 @@ export const WrapPlatform = styled.View`
     height: 60px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 10px;
-    background-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, .8);
     padding: 5px;
 `
 export const LogoPlatform = styled.Image`
