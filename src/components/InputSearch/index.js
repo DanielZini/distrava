@@ -8,7 +8,7 @@ export default props => {
     return (
         <Container>
             <InputText {...props} placeholderTextColor='#AAA' />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={props.onSearch}>
                 <ButtonSearch btColor={cmStyles.cl.second} custom={true}>
                     <Icon name='search' size={30} color='#FFFFFF' />
                 </ButtonSearch>

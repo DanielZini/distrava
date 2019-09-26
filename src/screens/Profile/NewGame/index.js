@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, FlatList } from 'react-native';
+import { Text, FlatList, Keyboard } from 'react-native';
 import { ViewPager } from 'rn-viewpager'
 import Button from '../../../components/Button';
 import InputSearch from '../../../components/InputSearch';
@@ -77,6 +77,19 @@ const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     return iconConfig
 }
 
+const mocGames = [
+    {
+        id: 1,
+        active: false,
+        gameUri: gameUri,
+    },
+    {
+        id: 2,
+        active: false,
+        gameUri: gameUri,
+    },
+]
+
 class NewGame extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -85,23 +98,11 @@ class NewGame extends React.Component {
             headerRight: <Icon name='gamepad' size={30} color='#FFFFFF' style={{ marginRight: 15 }} />,
         };
     };
-    
+
     state = {
         currentPage: 0,
-        gamesList: [
-            {
-                id: 1,
-                newGame: true,
-                active: false,
-                gameUri: gameUri,
-            },
-            {
-                id: 2,
-                newGame: true,
-                active: true,
-                gameUri: gameUri,
-            },
-        ],
+        gamesList: [],
+        selectedGame: [],
         platformList: [
             {
                 id: 1,
@@ -114,7 +115,7 @@ class NewGame extends React.Component {
                 id: 2,
                 newGame: true,
                 isPlatform: true,
-                active: true,
+                active: false,
                 platformUri: platformUri
             },
             {
@@ -144,14 +145,30 @@ class NewGame extends React.Component {
         this.viewPager.setPage(position);
     }
 
-    onSelect = () => {
+    onSelect = (id) => {
 
-        const cardSelected = card => card.id = 1
-        console.log(cardSelected);
-        
-        // this.setState({ active: true})
+        let selectedGame = [];
+
+        const games = this.state.gamesList.map(game => {
+
+            if (game.id === id) {
+                game = { ...game };
+                game.active = true;
+                selectedGame = game;
+            }else{
+                game.active = false;
+            }
+
+            return game
+        })
+
+        this.setState({ gamesList: games, selectedGame });
     }
-    
+
+    searchGame = () => {
+        Keyboard.dismiss();
+        this.setState({ gamesList: mocGames });
+    }
 
     render(){
         return(
@@ -179,12 +196,10 @@ class NewGame extends React.Component {
                     onPageSelected={page => {
                         this.setState({ currentPage: page.position })
                     }}>
-                        
-                   
 
                     <ItemStep key="0">
                         <WrapSearchInput>
-                            <InputSearch placeholder='Busque seu jogo'/>
+                            <InputSearch placeholder='Busque seu jogo' onSearch={() => this.searchGame()} />
                         </WrapSearchInput>
                         <FlatList
                             columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 15 }}
@@ -192,7 +207,7 @@ class NewGame extends React.Component {
                             data={this.state.gamesList}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) =>
-                                <CardMini {...item} onSelect={() => this.onSelect()} />}
+                                <CardMini {...item} newGame={true} onSelect={() => this.onSelect(item.id)} />}
                         />
                     </ItemStep>
                     {/* <ItemStep key="0">
@@ -225,7 +240,7 @@ class NewGame extends React.Component {
                             data={this.state.platformList}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) =>
-                                <CardMini {...item} onSelect={() => this.onSelect()} />}
+                                <CardMini {...item} />}
                         />
 
                     </ItemStep>
@@ -261,7 +276,9 @@ class NewGame extends React.Component {
                     </ButtonItem>
                     <ButtonItem>
                         {this.state.currentPage < 2 ?
-                        <Button onPress={() => this.onChangeStep(this.state.currentPage + 1)}>
+                        <Button
+                            onPress={() => this.onChangeStep(this.state.currentPage + 1)}
+                            disabled={this.state.selectedGame.length === 0 ? true : false}>
                             Próximo
                         </Button>
                         :
