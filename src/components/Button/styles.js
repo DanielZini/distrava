@@ -12,6 +12,7 @@ export const Container = styled.View`
     border: 2px solid #FFF;
     shadow-color: #000000;
     elevation: 2px;
+    opacity: ${props => props.disabled ? '.5' : '1' };
 `
 export const TextButton = styled.Text`
     font-family: ${cmStyles.fontBold};

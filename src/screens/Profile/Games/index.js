@@ -2,14 +2,11 @@ import React from 'react';
 import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
+import CardMini from '../../../components/CardMini';
 import { 
     Container,
     ItemGame,
-    ButtonDel,
-    ToucheArea,
-    GameImage,
-    WrapPlatform,
-    PlatformImage,
+    TouchArea,
 } from './styles';
 
 class Games extends React.Component {
@@ -66,38 +63,38 @@ class Games extends React.Component {
                 <Container>
 
                     <ItemGame>
-                        <ToucheArea onPress={() => navigation.navigate('NewGame')}>
+                        <TouchArea onPress={navigation.navigate('NewGame')}>
                             <Icon name='add-circle-outline' size={60} color='#AAAAAA' />
-                        </ToucheArea>
+                        </TouchArea>
                     </ItemGame>
-
-                    <ItemGame>
-                        <ButtonDel>
-                            <ToucheArea onPress={() => excludeGame(1)}>
-                                <Icon name='delete-forever' size={25} color='#c32020' />
-                            </ToucheArea>
-                        </ButtonDel>
-                        <ToucheArea onPress={() => navGameDetail(gameName, gameUri, platformUri, 5, 4, 1)}>
-                            <WrapPlatform>
-                                <PlatformImage source={{ uri: platformUri }} />
-                            </WrapPlatform>
-                            <GameImage source={{uri: gameUri}} />
-                        </ToucheArea>
-                    </ItemGame>
-
-                    <ItemGame>
-                        <ButtonDel>
-                            <ToucheArea onPress={() => excludeGame(2)}>
-                                <Icon name='delete-forever' size={25} color='#c32020' />
-                            </ToucheArea>
-                        </ButtonDel>
-                        <ToucheArea onPress={() => navGameDetail('The Legend of Zelda: Breath of the Wild', 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.png', 'https://images.igdb.com/igdb/image/upload/t_cover_big/pl6n.png', 5, 4, 1)}>
-                            <WrapPlatform>
-                                <PlatformImage source={{ uri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/pl6n.png' }} />
-                            </WrapPlatform>
-                            <GameImage source={{ uri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.png' }} />
-                        </ToucheArea>
-                    </ItemGame>
+                    
+                    <CardMini
+                        newGame={false}
+                        onExclude={() => excludeGame(1)}
+                        onOpen={() => navGameDetail(gameName, gameUri, platformUri, 5, 4, 1)}
+                        imgPlatform={platformUri}
+                        imgGame={gameUri} />
+                        
+                    <CardMini
+                        newGame={false}
+                        onExclude={() => excludeGame(1)}
+                        onOpen={() => navGameDetail('The Legend of Zelda: Breath of the Wild', 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.png', 'https://images.igdb.com/igdb/image/upload/t_cover_big/pl6n.png', 5, 4, 1)}
+                        imgPlatform={'https://images.igdb.com/igdb/image/upload/t_cover_big/pl6n.png'}
+                        imgGame={'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.png'} />
+                    
+                    <CardMini
+                        newGame={false}
+                        onExclude={() => excludeGame(1)}
+                        onOpen={() => navGameDetail(gameName, gameUri, platformUri, 5, 4, 1)}
+                        imgPlatform={platformUri}
+                        imgGame={gameUri} />
+                        
+                    <CardMini
+                        newGame={false}
+                        onExclude={() => excludeGame(1)}
+                        onOpen={() => navGameDetail('The Legend of Zelda: Breath of the Wild', 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.png', 'https://images.igdb.com/igdb/image/upload/t_cover_big/pl6n.png', 5, 4, 1)}
+                        imgPlatform={'https://images.igdb.com/igdb/image/upload/t_cover_big/pl6n.png'}
+                        imgGame={'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.png'} />
 
                 </Container>
             </ScrollView>

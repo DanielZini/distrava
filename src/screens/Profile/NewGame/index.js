@@ -1,19 +1,29 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, FlatList } from 'react-native';
 import { ViewPager } from 'rn-viewpager'
+import Button from '../../../components/Button';
+import InputSearch from '../../../components/InputSearch';
 import cmStyles from '../../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import defaultProfile from '../../../../assets/img/defaultPerson.png';
 import { ScrollView } from 'react-native-gesture-handler';
 import StepIndicator from 'react-native-step-indicator';
+import CardMini from '../../../components/CardMini';
 import { 
     Container,
-
+    NavSteps,
+    ItemStep,
+    WrapActionButtons,
+    ButtonItem,
+    WrapSearchInput,
+    ListCards,
+    ListCards2,
+    DescStep,
 } from './styles';
-const PAGES = ['Page 1', 'Page 2', 'Page 3']
+
+// custom styles
 const customStyles = {
-    stepIndicatorSize: 40,
-    currentStepIndicatorSize: 50,
+    stepIndicatorSize: 50,
+    currentStepIndicatorSize: 60,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
     stepStrokeCurrentColor: '#E04825',
@@ -26,21 +36,26 @@ const customStyles = {
     stepIndicatorFinishedColor: '#E04825',
     stepIndicatorUnFinishedColor: '#ffffff',
     stepIndicatorCurrentColor: '#ffffff',
-    stepIndicatorLabelFontSize: 13,
-    currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: '#E04825',
-    stepIndicatorLabelFinishedColor: '#ffffff',
-    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-    labelColor: '#999999',
-    labelSize: 13,
-    currentStepLabelColor: '#E04825'
+    labelColor: '#555',
+    currentStepLabelColor: '#E04825',
+    labelSize: 16,
 }
 
+// config car game --------
+let gameName = 'The Legend of Zelda: Ocarina of Time 3D'
+
+let gameImageId = 'co1nl5';
+const gameUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big_2x/' + gameImageId + '.jpg';
+
+let platformImageId = 'pl6o';
+const platformUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + platformImageId + '.png';
+
+//renderiza icones na navegação
 const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
         name: 'feed',
         color: stepStatus === 'finished' ? '#ffffff' : '#E04825',
-        size: 20
+        size: 30
     }
     switch (position) {
         case 0: {
@@ -72,91 +87,195 @@ class NewGame extends React.Component {
     };
     
     state = {
-        currentPosition: 0
+        currentPage: 0,
+        gamesList: [
+            {
+                id: 1,
+                newGame: true,
+                active: false,
+                gameUri: gameUri,
+            },
+            {
+                id: 2,
+                newGame: true,
+                active: true,
+                gameUri: gameUri,
+            },
+        ],
+        platformList: [
+            {
+                id: 1,
+                newGame: true,
+                isPlatform: true,
+                active: false,
+                platformUri: platformUri
+            },
+            {
+                id: 2,
+                newGame: true,
+                isPlatform: true,
+                active: true,
+                platformUri: platformUri
+            },
+            {
+                id: 3,
+                newGame: true,
+                isPlatform: true,
+                active: false,
+                platformUri: platformUri
+            },
+        ],
     }
 
-    componentWillReceiveProps(nextProps, nextState) {
-        if (nextState.currentPage != this.state.currentPage) {
-            if (this.viewPager) {
-                this.viewPager.setPage(nextState.currentPage)
-            }
-        }
+    // componentWillReceiveProps(nextProps, nextState) {
+    //     if (nextState.currentPage != this.state.currentPage) {
+    //         if (this.viewPager) {
+    //             this.viewPager.setPage(nextState.currentPage)
+    //         }
+    //     }
+    // }
+
+    renderStepIndicator = params => (
+        <Icon {...getStepIndicatorIconConfig(params)} />
+    )
+
+    onChangeStep = position => {
+        this.setState({ currentPage: position });
+        this.viewPager.setPage(position);
     }
 
-    renderViewPagerPage = data => {
-        return (
-            <View>
-                <Text>{data}</Text>
-            </View>
-        )
+    onSelect = () => {
+
+        const cardSelected = card => card.id = 1
+        console.log(cardSelected);
+        
+        // this.setState({ active: true})
     }
+    
 
     render(){
         return(
             <Container>
-                <View style={styles.stepIndicator}>
-                <StepIndicator
-                    renderStepIndicator={this.renderStepIndicator}
-                    customStyles={customStyles}
-                    currentPosition={this.state.currentPage}
-                    onPress={this.onStepPress}
-                    stepCount={3}
-                    labels={[
-                        'Jogo',
-                        'Plataforma',
-                        'Avaliação',
-                    ]}
-                />
-                </View>
+                <NavSteps>
+                    <StepIndicator
+                        renderStepIndicator={this.renderStepIndicator}
+                        customStyles={customStyles}
+                        currentPosition={this.state.currentPage}
+                        stepCount={3}
+                        // onPress={this.onChangeStep}
+                        labels={[
+                            'Jogo',
+                            'Plataforma',
+                            'Avaliação',
+                        ]}
+                    />
+                </NavSteps>
                 <ViewPager
                     style={{ flexGrow: 1 }}
+                    horizontalScroll={false}
                     ref={viewPager => {
                         this.viewPager = viewPager
                     }}
                     onPageSelected={page => {
                         this.setState({ currentPage: page.position })
-                    }}
-                >
-                    {PAGES.map(page => this.renderViewPagerPage(page))}
+                    }}>
+                        
+                   
+
+                    <ItemStep key="0">
+                        <WrapSearchInput>
+                            <InputSearch placeholder='Busque seu jogo'/>
+                        </WrapSearchInput>
+                        <FlatList
+                            columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 15 }}
+                            numColumns={2}
+                            data={this.state.gamesList}
+                            keyExtractor={item => item.id}
+                            renderItem={({ item }) =>
+                                <CardMini {...item} onSelect={() => this.onSelect()} />}
+                        />
+                    </ItemStep>
+                    {/* <ItemStep key="0">
+                        <WrapSearchInput>
+                            <InputSearch placeholder='Busque seu jogo'/>
+                        </WrapSearchInput>
+                        <ScrollView>
+                            <ListCards>
+                                <CardMini 
+                                    newGame
+                                    active={this.state.gameSelected}
+                                    gameUri={gameUri}/>
+                                <CardMini 
+                                    newGame
+                                    active={this.state.gameSelected}
+                                    gameUri={gameUri}/>
+                                <CardMini 
+                                    newGame
+                                    active={this.state.gameSelected}
+                                    gameUri={gameUri}/>
+                            </ListCards>
+                        </ScrollView>
+                    </ItemStep> */}
+
+                    <ItemStep key="1">
+                        <DescStep>Escolha a plataforma do seu jogo</DescStep>
+                        <FlatList
+                            columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 15 }}
+                            numColumns={2}
+                            data={this.state.platformList}
+                            keyExtractor={item => item.id}
+                            renderItem={({ item }) =>
+                                <CardMini {...item} onSelect={() => this.onSelect()} />}
+                        />
+
+                    </ItemStep>
+                    {/* <ItemStep key="1">
+                        <DescStep>Escolha a plataforma do seu jogo</DescStep>
+                        <ScrollView>
+                            <ListCards>
+                                <CardMini
+                                    newGame
+                                    isPlatform
+                                    active={this.state.platformSelected}
+                                    platformUri={platformUri} />
+                                    onSelect={() => this.onSelect()}
+                            </ListCards>
+                        </ScrollView>
+                    </ItemStep> */}
+
+                    <ItemStep key="2">
+                        <ScrollView>
+                            <Text>{this.state.currentPage}</Text>
+                        </ScrollView>
+                    </ItemStep>
+
                 </ViewPager>
+                <WrapActionButtons>
+                    <ButtonItem>
+                        <Button 
+                        onPress={() => this.onChangeStep(this.state.currentPage - 1)}
+                        btColor={cmStyles.cl.second} 
+                        disabled={this.state.currentPage > 0 ? false : true} >
+                            Voltar
+                        </Button>
+                    </ButtonItem>
+                    <ButtonItem>
+                        {this.state.currentPage < 2 ?
+                        <Button onPress={() => this.onChangeStep(this.state.currentPage + 1)}>
+                            Próximo
+                        </Button>
+                        :
+                         <Button>
+                            Cadastrar
+                        </Button>
+                        }
+                    </ButtonItem>
+                </WrapActionButtons>
             </Container>
         )
     }
 
-    renderStepIndicator = params => (
-        <Icon {...getStepIndicatorIconConfig(params)} />
-    )
-    onStepPress = position => {
-        this.setState({ currentPage: position })
-        this.viewPager.setPage(position)
-    }
+
 }
 
 export default NewGame;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ffffff'
-    },
-    stepIndicator: {
-        marginVertical: 50
-    },
-    page: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    stepLabel: {
-        fontSize: 12,
-        textAlign: 'center',
-        fontWeight: '500',
-        color: '#999999'
-    },
-    stepLabelSelected: {
-        fontSize: 12,
-        textAlign: 'center',
-        fontWeight: '500',
-        color: '#4aae4f'
-    }
-})
