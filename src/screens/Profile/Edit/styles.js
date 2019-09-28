@@ -8,7 +8,6 @@ export const Container = styled.View`
 `
 export const Content = styled.View`
     flex: 1;
-    flex-wrap: wrap;
     justify-content:center;
     align-content: center;
     align-items: center;
@@ -16,28 +15,41 @@ export const Content = styled.View`
     position: relative;
 `
 export const WrapImg = styled.View`
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     overflow: hidden;
     border-radius: 10px;
     background-color: #FFF;
     /* background-color: ${cmStyles.cl.second}; */
     justify-content:center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `
 export const ImgProfile = styled.Image`
     width: 100%;
     height: 100%;
     resize-mode: cover;
 `
-export const Name = styled.Text`
-    padding: 0 20px;
-    font-size: 20px;
+export const LabelEdit = styled.Text`
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .8);
+    padding: 5px;
+    font-size: 18px;
     text-align: center;
-    font-family: ${cmStyles.fontBold};
-    color: ${cmStyles.cl.primary};
+    font-family: ${cmStyles.fontRegular};
+    color: #FFFFFF;
 `
 export const Menu = styled.View`
     margin-top: 15px;
+`
+export const TouchArea = styled.TouchableOpacity`
+    width: 100%;
+    height: 100%;
+`
+export const WrapForm = styled.View`
+    width: 300px;
+
 `

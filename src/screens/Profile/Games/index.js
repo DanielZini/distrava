@@ -15,6 +15,7 @@ class Games extends React.Component {
         return {
             title: 'Meus Jogos',
             headerRight: <Icon name='gamepad' size={30} color='#FFFFFF' style={{marginRight: 15}} />,
+            onGoBack: () => this.refresh(),
         };
     };
 
@@ -63,7 +64,7 @@ class Games extends React.Component {
                 <Container>
 
                     <ItemGame>
-                        <TouchArea onPress={navigation.navigate('NewGame')}>
+                        <TouchArea onPress={() => navigation.navigate('NewGame')}>
                             <Icon name='add-circle-outline' size={60} color='#AAAAAA' />
                         </TouchArea>
                     </ItemGame>

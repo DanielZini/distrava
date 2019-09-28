@@ -39,3 +39,35 @@ export const DescStep = styled.Text`
     margin-bottom: 15px;
     color: ${cmStyles.cl.primary};
 `
+
+
+export const WrapRating = styled.View`
+    flex: 1;
+    justify-content: center;
+`
+export const ItemRating = styled.View`
+    padding: 20px 10px;
+    /* background-color: rgba(${cmStyles.cl.secondRGB}, .9); */
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-color: #DDD;
+    /* border-color: #f29948; */
+`
+export const Label = styled.Text`
+    text-align: center;
+    font-family: ${cmStyles.fontBold};
+    font-size: 20px;
+    color: ${cmStyles.cl.primary};
+    margin-bottom: 2px;
+`
+export const LoadingGif = styled.Image`
+    height: 70px;
+    resize-mode: contain;
+`
+export const TextModal = styled.Text`
+    font-family: ${cmStyles.fontBold};
+    font-size: 18px;
+    text-align: center;
+    margin-top: 15px;
+    color: ${cmStyles.cl.primary};
+`

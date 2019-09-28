@@ -28,6 +28,7 @@ export const CloseButton = styled.View`
 `
 export const Content = styled.View`
     width: 80%;
+    min-height: 170px;
     align-items: center;
     justify-content: center;
     padding: 15px;

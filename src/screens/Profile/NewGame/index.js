@@ -5,9 +5,13 @@ import Button from '../../../components/Button';
 import InputSearch from '../../../components/InputSearch';
 import cmStyles from '../../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
 import StepIndicator from 'react-native-step-indicator';
 import CardMini from '../../../components/CardMini';
+import { AirbnbRating } from 'react-native-ratings';
+import CustomModal from '../../../components/CustomModal';
+import loafingGif from '../../../../assets/img/loading.gif';
 import { 
     Container,
     NavSteps,
@@ -15,9 +19,12 @@ import {
     WrapActionButtons,
     ButtonItem,
     WrapSearchInput,
-    ListCards,
-    ListCards2,
+    WrapRating,
     DescStep,
+    ItemRating,
+    Label,
+    LoadingGif,
+    TextModal,
 } from './styles';
 
 // custom styles
@@ -88,6 +95,29 @@ const mocGames = [
         active: false,
         gameUri: gameUri,
     },
+];
+const mocPlatforms = [
+    {
+        id: 1,
+        newGame: true,
+        isPlatform: true,
+        active: false,
+        platformUri: platformUri
+    },
+    {
+        id: 2,
+        newGame: true,
+        isPlatform: true,
+        active: false,
+        platformUri: platformUri
+    },
+    {
+        id: 3,
+        newGame: true,
+        isPlatform: true,
+        active: false,
+        platformUri: platformUri
+    },
 ]
 
 class NewGame extends React.Component {
@@ -100,32 +130,16 @@ class NewGame extends React.Component {
     };
 
     state = {
+        modalRegisterVisible: false,
+        modalSuccessRegisterVisible: false,
         currentPage: 0,
         gamesList: [],
+        platformList: [],
         selectedGame: [],
-        platformList: [
-            {
-                id: 1,
-                newGame: true,
-                isPlatform: true,
-                active: false,
-                platformUri: platformUri
-            },
-            {
-                id: 2,
-                newGame: true,
-                isPlatform: true,
-                active: false,
-                platformUri: platformUri
-            },
-            {
-                id: 3,
-                newGame: true,
-                isPlatform: true,
-                active: false,
-                platformUri: platformUri
-            },
-        ],
+        selectedPlatform: [],
+        rateBox: 0,
+        rateMedia: 0,
+        rateManual: 0,
     }
 
     // componentWillReceiveProps(nextProps, nextState) {
@@ -145,7 +159,17 @@ class NewGame extends React.Component {
         this.viewPager.setPage(position);
     }
 
-    onSelect = (id) => {
+    setModalVisible = (visible) => {
+        this.setState({ modalVisible: visible });
+    }
+
+    // Functions games ------------------------------
+    searchGame = () => {
+        Keyboard.dismiss();
+        this.setState({ gamesList: mocGames, platformList: mocPlatforms });
+    }
+
+    onSelectGame = (id) => {
 
         let selectedGame = [];
 
@@ -159,20 +183,67 @@ class NewGame extends React.Component {
                 game.active = false;
             }
 
-            return game
+            return game;
         })
 
         this.setState({ gamesList: games, selectedGame });
     }
 
-    searchGame = () => {
-        Keyboard.dismiss();
-        this.setState({ gamesList: mocGames });
+    onSelectPlatform = (id) => {
+
+        let selectedPlatform = [];
+
+        const platforms = this.state.platformList.map(platform => {
+
+            if (platform.id === id) {
+                platform = { ...platform };
+                platform.active = true;
+                selectedPlatform = platform;
+            }else{
+                platform.active = false;
+            }
+
+            return platform;
+
+        })
+        this.setState({ platformList: platforms, selectedPlatform });
+
+        setTimeout(() => {
+            console.log(this.state.selectedGame);
+            console.log(this.state.selectedPlatform);
+        }, 1000);
+    }
+
+    registerGame = () => {
+        this.setState({ modalRegisterVisible: true} );
+
+        setTimeout(() => {
+            this.setState({ modalRegisterVisible: false });
+            this.setState({ modalSuccessRegisterVisible: true });
+        }, 2000);
+        setTimeout(() => {
+            this.setState({ modalSuccessRegisterVisible: false });
+            this.props.navigation.goBack();
+        }, 5000);
     }
 
     render(){
         return(
             <Container>
+
+                <CustomModal
+                    modalVisible={this.state.modalRegisterVisible}
+                    disabledClose={true}>
+                    <LoadingGif source={loafingGif} />
+                    <TextModal>Cadastrando...</TextModal>
+                </CustomModal>
+                <CustomModal
+                    modalVisible={this.state.modalSuccessRegisterVisible}
+                    disabledClose={true}>
+                    <IconAwesome name='thumbs-o-up' size={50} color={cmStyles.cl.primary} />
+                    <TextModal>Jogo cadastrado com sucesso!</TextModal>
+                </CustomModal>
+
                 <NavSteps>
                     <StepIndicator
                         renderStepIndicator={this.renderStepIndicator}
@@ -196,6 +267,9 @@ class NewGame extends React.Component {
                     onPageSelected={page => {
                         this.setState({ currentPage: page.position })
                     }}>
+                    
+
+                    {/* COMEÇA STEPS -------------------------------------------------- */}
 
                     <ItemStep key="0">
                         <WrapSearchInput>
@@ -207,30 +281,9 @@ class NewGame extends React.Component {
                             data={this.state.gamesList}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) =>
-                                <CardMini {...item} newGame={true} onSelect={() => this.onSelect(item.id)} />}
+                                <CardMini {...item} newGame={true} onSelect={() => this.onSelectGame(item.id)} />}
                         />
                     </ItemStep>
-                    {/* <ItemStep key="0">
-                        <WrapSearchInput>
-                            <InputSearch placeholder='Busque seu jogo'/>
-                        </WrapSearchInput>
-                        <ScrollView>
-                            <ListCards>
-                                <CardMini 
-                                    newGame
-                                    active={this.state.gameSelected}
-                                    gameUri={gameUri}/>
-                                <CardMini 
-                                    newGame
-                                    active={this.state.gameSelected}
-                                    gameUri={gameUri}/>
-                                <CardMini 
-                                    newGame
-                                    active={this.state.gameSelected}
-                                    gameUri={gameUri}/>
-                            </ListCards>
-                        </ScrollView>
-                    </ItemStep> */}
 
                     <ItemStep key="1">
                         <DescStep>Escolha a plataforma do seu jogo</DescStep>
@@ -240,29 +293,52 @@ class NewGame extends React.Component {
                             data={this.state.platformList}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) =>
-                                <CardMini {...item} />}
+                                <CardMini {...item} newGame={true} onSelect={() => this.onSelectPlatform(item.id)} />}
                         />
 
                     </ItemStep>
-                    {/* <ItemStep key="1">
-                        <DescStep>Escolha a plataforma do seu jogo</DescStep>
-                        <ScrollView>
-                            <ListCards>
-                                <CardMini
-                                    newGame
-                                    isPlatform
-                                    active={this.state.platformSelected}
-                                    platformUri={platformUri} />
-                                    onSelect={() => this.onSelect()}
-                            </ListCards>
-                        </ScrollView>
-                    </ItemStep> */}
 
                     <ItemStep key="2">
-                        <ScrollView>
-                            <Text>{this.state.currentPage}</Text>
-                        </ScrollView>
+                        <DescStep>Atribua uma nota de 1 a 5 para seu jogo</DescStep>
+                        <WrapRating>
+                            <ItemRating>
+                                <Label>Caixa</Label>
+                                <AirbnbRating
+                                    type='star'
+                                    count={5}
+                                    defaultRating={0}
+                                    size={40}
+                                    showRating={false}
+                                    onFinishRating={rating => this.setState({ rateBox: rating })}
+                                />
+                            </ItemRating>
+                            <ItemRating>
+                                <Label>Mídia</Label>
+                                <AirbnbRating
+                                    type='star'
+                                    count={5}
+                                    defaultRating={0}
+                                    size={40}
+                                    showRating={false}
+                                    onFinishRating={rating => this.setState({rateMedia: rating})}
+                                />
+                            </ItemRating>
+                            <ItemRating>
+                                <Label>Manual</Label>
+                                <AirbnbRating
+                                    type='star'
+                                    count={5}
+                                    defaultRating={0}
+                                    size={40}
+                                    showRating={false}
+                                    onFinishRating={rating => this.setState({rateManual: rating})}
+                                />
+                            </ItemRating>
+
+                        </WrapRating>
                     </ItemStep>
+
+                    {/* TERMINA STEPS -------------------------------------------------- */}
 
                 </ViewPager>
                 <WrapActionButtons>
@@ -276,13 +352,28 @@ class NewGame extends React.Component {
                     </ButtonItem>
                     <ButtonItem>
                         {this.state.currentPage < 2 ?
-                        <Button
-                            onPress={() => this.onChangeStep(this.state.currentPage + 1)}
-                            disabled={this.state.selectedGame.length === 0 ? true : false}>
-                            Próximo
-                        </Button>
+                            this.state.currentPage === 0 ?
+                                // Next Button Game
+                                <Button
+                                    onPress={() => this.onChangeStep(this.state.currentPage + 1)}
+                                        disabled={this.state.selectedGame.length === 0 ? true : false}>
+                                    Próximo
+                                </Button>
+                            :   // Next Button Platform
+                                <Button
+                                    onPress={() => this.onChangeStep(this.state.currentPage + 1)}
+                                    disabled={this.state.selectedPlatform.length === 0 ? true : false}>
+                                    Próximo
+                                </Button>
                         :
-                         <Button>
+                        <Button
+                            onPress={() => this.registerGame()}
+                            disabled={
+                                this.state.rateBox === 0 || 
+                                this.state.rateMedia === 0 || 
+                                this.state.rateManual === 0 ? true : false 
+                                }
+                        >
                             Cadastrar
                         </Button>
                         }
