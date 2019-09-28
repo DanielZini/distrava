@@ -1,15 +1,28 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { Container, TextButton } from './styles';
 
 export default props => {
+    
     return (
-        <TouchableOpacity onPress={props.onPress}>
-            <Container btColor={props.btColor} mH={props.mH}>
-                {!props.custom ?
-                <TextButton txtColor={props.txtColor}>{props.children}</TextButton>
-                : props.children }
-            </Container>
-        </TouchableOpacity>
+        <View>
+        { props.disabled ? 
+            <TouchableWithoutFeedback disabled={true}>
+                <Container btColor={props.btColor} disabled={true}>
+                    {!props.custom ?
+                        <TextButton txtColor={props.txtColor}>{props.children}</TextButton>
+                        : props.children}
+                </Container>
+            </TouchableWithoutFeedback>
+            :
+            <TouchableOpacity onPress={props.onPress}>
+                <Container btColor={props.btColor}>
+                    {!props.custom ?
+                        <TextButton txtColor={props.txtColor}>{props.children}</TextButton>
+                        : props.children}
+                </Container>
+            </TouchableOpacity>
+            }
+        </View>
     )
 }

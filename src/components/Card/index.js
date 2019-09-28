@@ -1,27 +1,36 @@
 import React from 'react';
+import loafingGif from '../../../assets/img/loading.gif';
 import { TouchableOpacity } from 'react-native';
-import { 
+import {
     Container,
     Card,
     GameImage,
     WrapTitle,
     Title,
+    WrapPlatform,
+    LogoPlatform,
+    WrapLoadingGif,
+    LoadingGif,
  } from './styles';
 
 export default props => {
     return (
         <Container style={{ zIndex: props.order}}>
             <Card>
-                <TouchableOpacity style={{width: '100%', height: '100%'}}>
-                    <GameImage source={props.gameSrc} />
-                    <WrapTitle
-                        start={{ x: 0, y: 1 }}
-                        end={{ x: 0, y: 0 }}
-                        colors={['rgba(0,0,0,1)', 'rgba(0,0,0,.0)']}>
+                <TouchableOpacity onPress={props.onPress} style={{zIndex: 2,width: '100%', height: '100%'}}>
+                    <GameImage source={{ uri: props.gameSrc }} />
 
+                    {/* <WrapTitle>
                         <Title>{props.title}</Title>
-                    </WrapTitle>
+                    </WrapTitle> */}
+
+                    <WrapPlatform>
+                        <LogoPlatform source={{ uri: props.platformSrc }} />
+                    </WrapPlatform>
                 </TouchableOpacity>
+                <WrapLoadingGif>
+                    <LoadingGif source={loafingGif} />
+                </WrapLoadingGif>
             </Card>
         </Container>
     )

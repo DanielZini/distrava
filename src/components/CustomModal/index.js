@@ -25,9 +25,11 @@ export default props =>{
 
                 <Content>
                     <CloseButton>
+                        {!props.disabledClose &&
                         <TouchableWithoutFeedback onPress={props.closeModal}>
                             <Icon name='close' size={30} color='#FFFFFF'/>
                         </TouchableWithoutFeedback>
+                        }
                     </CloseButton>
                     {props.title && <Title>{props.title}</Title>}
                     {props.children}

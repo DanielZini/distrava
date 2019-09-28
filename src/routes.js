@@ -1,51 +1,169 @@
-import Login from './screens/Login';
-import Main from './screens/Main';
-import Match from './screens/Match';
-import Profile from './screens/Profile';
+import React from 'react'
+import cmStyles from './commonStyles';
+
 import Header from './components/Header';
+import Login from './screens/Login';
+
+// Games card
+import GameDetail from './screens/Home/GameDetail';
+import ListCardGames from './screens/Home/ListCardGames';
+
+// Match
+import Match from './screens/Match';
+
+// Profile
+import MenuProfile from './screens/Profile/Menu';
+import GamesProfile from './screens/Profile/Games';
+import NewGame from './screens/Profile/NewGame';
+import EditProfile from './screens/Profile/Edit';
+import ConfigProfile from './screens/Profile/Config';
+import CopyrightProfile from './screens/Profile/Copyright';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator   } from 'react-navigation-tabs';
 
-const HeaderScreens = createMaterialTopTabNavigator (
+// Home Stack Navigation -----------------------------
+const HomeStack = createStackNavigator(
     {
-        Profile: {
-            name: 'Perfil',
-            screen: Profile,
+        ListCardGames: {
+            screen: ListCardGames,
+            navigationOptions: {
+                header: null,
+            },
         },
-        Main: {
-            name: 'Home',
-            screen: Main,
-        },
-        Match: {
-            name: 'Troca',
-            screen: Match,
+        GameDetail: {
+            screen: GameDetail,
         },
     },
     {
-        tabBarComponent: Header,
-        initialRouteName: 'Match',
+        initialRouteName: 'ListCardGames',
     },
-)
+);
 
-const HeaderRouts = createAppContainer(HeaderScreens);
+// esconde top tab bar quando abrir o stack navigation
+HomeStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
 
-const LoginScreen = createSwitchNavigator (
+    return {
+        tabBarVisible,
+    };
+};
+
+// Profile Stack Navigation ---------------------------
+const ProfileStack = createStackNavigator(
     {
-        Login: {
-            name: 'Login',
-            screen: Login,
+        MenuProfile: {
+            screen: MenuProfile,
+            navigationOptions: {
+                header: null,
+            },
         },
-        Main: {
-            name: 'Home',
-            screen: HeaderRouts,
-        },
+        GamesProfile,
+        GameDetail,
+        NewGame,
+        EditProfile,
+        ConfigProfile,
+        CopyrightProfile
     },
     {
-        initialRouteName: 'Login',
+        initialRouteName: 'MenuProfile',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: cmStyles.cl.second,
+            },
+            headerTintColor: '#FFFFFF',
+        }
     },
-)
+);
 
-const LoginRouts = createAppContainer(LoginScreen);
+// esconde top tab bar quando abrir o stack navigation
+ProfileStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
 
-export { HeaderRouts, LoginRouts };
+    return {
+        tabBarVisible,
+    };
+};
+
+export default createRoutes = createAppContainer(
+        createSwitchNavigator(
+            {
+                Auth: createSwitchNavigator(
+                    {
+                        Login,
+                    }
+                ),
+                App: createMaterialTopTabNavigator(
+                    {
+                        Profile: ProfileStack,
+                        Home: HomeStack,
+                        Match,
+                    },
+                    {
+                        tabBarComponent: Header,
+                        initialRouteName: 'Profile',
+                    }
+                ),
+            },
+            {
+                initialRouteName: 'App',
+            }
+        )
+    );
+// export const GameRoutes = createStackNavigator (
+//     {
+//         GameDetail
+//     },
+//     {
+//         initialRouteName: 'GameDetail',
+//     },
+// )
+
+// const HeaderRoutes = createMaterialTopTabNavigator (
+//     {
+//         Profile: {
+//             name: 'Perfil',
+//             screen: Profile,
+//         },
+//         Main: {
+//             title: 'Home',
+//             screen: Main,
+            
+//         },
+//         Match: {
+//             name: 'Troca',
+//             screen: Match,
+//         },
+//     },
+//     {
+//         tabBarComponent: Header,
+//         initialRouteName: 'Main',
+//     },
+// )
+// const HeaderNavigator = createAppContainer(HeaderRoutes);
+
+// const MainRoutes = createSwitchNavigator (
+//     {
+//         Login: {
+//             name: 'Login',
+//             screen: Login,
+//         },
+//         Main: {
+//             name: 'Home',
+//             screen: HeaderRoutes,
+//         },
+//     },
+//     {
+//         initialRouteName: 'Login',
+//     },
+// )
+// const MainNavigator = createAppContainer(MainRoutes);
+
+// export { HeaderNavigator, MainNavigator };

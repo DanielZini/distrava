@@ -8,7 +8,8 @@ export const Container = styled.View`
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    background-color: ${props => props.screen === 'Match' ? '#f9f9f9' : '#FFFFFF'};
+    /* background-color: ${props => props.screen === 'Match' ? '#f9f9f9' : '#FFFFFF'}; */
+    background-color: #f5f5f5;
     position: relative;
     z-index:2;
 `

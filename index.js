@@ -6,6 +6,6 @@ console.disableYellowBox = true;
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 
-import { HeaderRouts, LoginRouts } from './src/routes';
+import createRoutes from './src/routes';
 
-AppRegistry.registerComponent(appName, () => HeaderRouts);
+AppRegistry.registerComponent(appName, () => createRoutes);

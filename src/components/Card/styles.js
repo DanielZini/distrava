@@ -14,11 +14,9 @@ export const Container = styled.View`
 `
 export const Card = styled.View`
     position: relative;
-    max-width:100%;
-    max-height: 500px;
     width: 90%;
     height: 95%;
-    max-width: 300px;
+    max-width: 350px;
     max-height: 700px;
     overflow: hidden;
     border-radius: 10px;
@@ -31,22 +29,55 @@ export const GameImage = styled.Image`
     position: relative;
     resize-Mode: cover;
     align-self: center;
-    width: 100%;
-    max-width:100%;
-    max-height: 100%;
+    width:100%;
+    height: 100%;
 `
-export const WrapTitle = styled(LinearGradient)`
+export const WrapTitle = styled.View`
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    top: 50%;
-    padding: 15px 20px;
     z-index:2;
     justify-content:flex-end;
+    align-items:flex-end;
 `
 export const Title = styled.Text`
-    font-size: 22px;
-    color: #FFFFFF;
-    font-family: ${cmStyles.fontLight}
+    font-family: ${cmStyles.fontRegular};
+    font-size: 16px;
+    color: ${cmStyles.cl.primary};
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, .85);
+`
+export const WrapPlatform = styled.View`
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+    height: 60px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 10px;
+    background-color: rgba(255, 255, 255, .8);
+    padding: 5px;
+`
+export const LogoPlatform = styled.Image`
+    position: relative;
+    resize-Mode: contain;
+    width:100%;
+    height: 100%;
+`
+export const WrapLoadingGif = styled.View`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    resize-Mode: cover;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+`
+export const LoadingGif = styled.Image`
+    width: 70px;
+    resize-Mode: contain;
+
 `
