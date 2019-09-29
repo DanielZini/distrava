@@ -1,23 +1,24 @@
-import LinearGradient from 'react-native-linear-gradient';
 import cmStyles from '../../commonStyles';
 import styled from 'styled-components';
 
-export const Container = styled.View`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    justify-content: center;
-    align-items:center;
-    background-color: transparent;
-`
+// export const Container = styled.View`
+//     flex: 1;
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     justify-content: center;
+//     align-items:center;
+//     background-color: transparent;
+// `
 export const Card = styled.View`
     position: relative;
     width: 90%;
     height: 95%;
     max-width: 350px;
-    max-height: 700px;
+    max-height: 500px;
+    min-height: 200px;
     overflow: hidden;
     border-radius: 10px;
     background-color: #f1f1f1;

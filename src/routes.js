@@ -76,6 +76,9 @@ const ProfileStack = createStackNavigator(
                 backgroundColor: cmStyles.cl.second,
             },
             headerTintColor: '#FFFFFF',
+            headerTitleStyle:{
+                fontFamily: cmStyles.fontRegular
+            }
         }
     },
 );
@@ -108,7 +111,7 @@ export default createRoutes = createAppContainer(
                     },
                     {
                         tabBarComponent: Header,
-                        initialRouteName: 'Profile',
+                        initialRouteName: 'Home',
                     }
                 ),
             },
