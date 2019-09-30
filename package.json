@@ -15,6 +15,7 @@
     "react-native-flash-message": "^0.1.14",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-masked-text": "^1.13.0",
     "react-native-ratings": "^6.5.0",
     "react-native-reanimated": "^1.2.0",
     "react-native-step-indicator": "^0.0.11",

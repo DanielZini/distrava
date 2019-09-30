@@ -23,6 +23,7 @@ const dataUser =
     city: 'Elias Fausto',
     state: 'SP',
     email: 'daniel@jgwebcom.com',
+    whatsapp: '(19) 99617-0919',
     password: '',
     newPassword: '',
 }
@@ -41,6 +42,7 @@ class Edit extends React.Component {
         city: '',
         state: '',
         email: '',
+        whatsapp: '',
         password: '',
         newPassword: '',
     }
@@ -99,6 +101,11 @@ class Edit extends React.Component {
                                 value={this.state.email}
                                 onChangeText={email => this.setState({ email })} />
                             <Input
+                                type='cel-phone'
+                                placeholder='Whats App'
+                                value={this.state.whatsapp}
+                                onChangeText={whatsapp => this.setState({ whatsapp })} />
+                            <Input
                                 secureTextEntry={true}
                                 placeholder='Senha atual'
                                 value={this.state.password}
@@ -109,9 +116,12 @@ class Edit extends React.Component {
                                 value={this.state.newPassword}
                                 onChangeText={newPassword => this.setState({ newPassword })} />
 
-                            <Button onPress={() => this.updateProfile()}>
-                                Atualizar
-                            </Button>
+                            <View style={{ marginBottom: 10 }}>
+                                <Button 
+                                    onPress={() => this.updateProfile()}>
+                                    Atualizar
+                                </Button>
+                            </View>
                             <Button 
                                 btColor={cmStyle.cl.second}>
                                 Sair

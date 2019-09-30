@@ -1,5 +1,6 @@
 import cmStyles from '../../commonStyles';
 import styled from 'styled-components';
+import { TextInputMask } from 'react-native-masked-text'
 
 export const Container = styled.View`
     width: 100%;
@@ -21,6 +22,13 @@ export const WrapIcon = styled.View`
     border-color: ${cmStyles.cl.second};
 `
 export const InputText = styled.TextInput`
+    font-family: ${cmStyles.fontRegular};
+    font-size: 16px;
+    margin-left: 12px;
+    color: #333333;
+    flex: 1;
+`
+export const InputTextMask = styled(TextInputMask)`
     font-family: ${cmStyles.fontRegular};
     font-size: 16px;
     margin-left: 12px;

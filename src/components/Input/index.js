@@ -1,7 +1,7 @@
 import React from 'react';
 import cmStyles from '../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Container, WrapIcon, InputText } from './styles';
+import { Container, WrapIcon, InputText, InputTextMask } from './styles';
 
 export default props => {
     return (
@@ -10,7 +10,19 @@ export default props => {
             <WrapIcon>
                 <Icon name={props.icon} size={20} color={cmStyles.cl.primary} /> 
             </WrapIcon>}
-            <InputText {...props} placeholderTextColor='#AAA' />
+
+            {props.type ?
+                <InputTextMask 
+                    type={props.type}
+                    options={{
+                        maskType: 'BRL',
+                        withDDD: true,
+                        dddMask: '(99) '
+                    }}
+                    {...props} />
+            :
+                <InputText {...props} placeholderTextColor='#AAA' />
+            }
         </Container>
     )
 }
