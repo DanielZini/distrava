@@ -1,4 +1,3 @@
-import cmStyles from '../../commonStyles';
 import styled from 'styled-components';
 
 export const Container = styled.View`

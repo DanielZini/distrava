@@ -26,6 +26,7 @@ const platformUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + p
 const mocListGame = [
     {
         id: 1,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: gameUri,
         platformUri: platformUri,
@@ -35,6 +36,7 @@ const mocListGame = [
     },
     {
         id: 2,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
         platformUri: platformUri,
@@ -44,6 +46,7 @@ const mocListGame = [
     },
     {
         id: 3,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: gameUri,
         platformUri: platformUri,
@@ -53,6 +56,7 @@ const mocListGame = [
     },
     {
         id: 4,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
         platformUri: platformUri,
@@ -62,6 +66,7 @@ const mocListGame = [
     },
     {
         id: 5,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: gameUri,
         platformUri: platformUri,
@@ -71,6 +76,7 @@ const mocListGame = [
     },
     {
         id: 6,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
         platformUri: platformUri,
@@ -80,6 +86,7 @@ const mocListGame = [
     },
     {
         id: 7,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: gameUri,
         platformUri: platformUri,
@@ -89,6 +96,7 @@ const mocListGame = [
     },
     {
         id: 8,
+        address: 'Indaiatuba / SP',
         gameName: 'The Legend of Zelda: Ocarina of Time 3D',
         gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
         platformUri: platformUri,
@@ -101,18 +109,19 @@ class Main extends React.Component {
 
     state = {
         listGame: [],
+        buttonDisabled: true,
     }
 
     componentDidMount(){
         this.loadGames();
-        // this.moveAnimation = new Animated.ValueXY({ x: 0, y: 0 })
-        // this.fadeAnimation = new Animated.Value(1)
+        this.setState({ buttonDisabled: false })
     }
 
-    navigationScreen = (name, photo, platform, ratingBox, ratingMedia, ratingManual) => {
+    navigationScreen = (name, photo, address, platform, ratingBox, ratingMedia, ratingManual) => {
         this.props.navigation.navigate('GameDetail', {
             title: name,
             photo,
+            address,
             platform,
             ratingBox,
             ratingMedia,
@@ -120,38 +129,12 @@ class Main extends React.Component {
         });
     }
 
-    // animationAddGame =  () => {
-    //     Animated.parallel([
-    //         Animated.timing(this.fadeAnimation, {
-    //             toValue: 0,
-    //             duration: 300
-    //         }),
-    //         Animated.spring(this.moveAnimation, {
-    //             toValue: { x: 200, y: 200 },
-    //             duration: 1000
-    //         }),
-    //     ]).start();
-    // }
-
-    // animationNextGame = async  () => {
-    //     await Animated.parallel([
-    //         await Animated.timing(this.fadeAnimation, {
-    //             toValue: 0,
-    //             duration: 300
-    //         }),
-    //         await Animated.spring(this.moveAnimation, {
-    //             toValue: { x: 200, y: -200 },
-    //             duration: 1000
-    //         }),
-    //     ]).start();
-    // }
-
     loadGames = () =>{
 
         // adiciona indice de animação á cada jogo da lista -----------
         const newListMocGames = mocListGame.map(game => {
             game.animatedMove = new Animated.ValueXY({ x: 0, y: 0 });
-            game.animatedOpacity = new Animated.Value(1);
+            // game.animatedOpacity = new Animated.Value(1);
             return game
         })
 
@@ -160,38 +143,33 @@ class Main extends React.Component {
 
     addGame = () =>{
 
-        Animated.parallel([
-            Animated.spring(this.state.listGame[0].animatedMove, {
-                toValue: { x: 500, y: 0 },
-                duration: 1000
-            }),
-            Animated.timing(this.state.listGame[0].animatedOpacity, {
-                toValue: 0,
-                duration: 500
-            }),
-        ]).start(() =>{
+        Animated.spring(this.state.listGame[0].animatedMove, {
+            toValue: { x: 0, y: 500 },
+            speed: 3,
+            // tension: 30,
+            bounciness: 5,
+        }).start(() =>{
 
             // faz as paradas
             const [game, ...rest] = this.state.listGame;
             this.setState({ listGame: rest });
+
         });
     }
 
     nextGame = () =>{
-        Animated.parallel([
-            Animated.spring(this.state.listGame[0].animatedMove, {
-                toValue: { x: -500, y: 0 },
-                duration: 1000
-            }),
-            Animated.timing(this.state.listGame[0].animatedOpacity, {
-                toValue: 0,
-                duration: 500
-            }),
-        ]).start(() => {
+
+        Animated.spring(this.state.listGame[0].animatedMove, {
+            toValue: { x: 500, y: 0 },
+            speed: 3,
+            // tension: 30,
+            bounciness: 5,
+        }).start(() => {
             // faz as paradas
             const [game, ...rest] = this.state.listGame;
 
             this.setState({ listGame: rest });
+
         });
     }
 
@@ -203,21 +181,21 @@ class Main extends React.Component {
                 {
                     this.state.listGame.length === 0 ?
                     
-                    <EmptyAlert>Não há mais jogos para trocar =[</EmptyAlert>
+                    <EmptyAlert>Não há mais jogos para trocar! =[</EmptyAlert>
 
                     :
                     this.state.listGame.map((game, index) => (
                         <AnimatedView
                             key={game.id}
-                            style={[game.animatedMove.getLayout(), { opacity: game.animatedOpacity, zIndex: this.state.listGame.length - index }]}>
-                            {/* style={[this.moveAnimation.getLayout(), { opacity: game.animationOpacity, zIndex: this.state.listGame.length - index }]}> */}
+                            style={[game.animatedMove.getLayout(), { zIndex: this.state.listGame.length - index }]}>
                             <Card
                                 id={game.id}
+                                address={game.address}
                                 gameSrc={game.gameUri}
                                 platformSrc={game.platformUri}
                                 title={game.gameName}
                                 onPress={() => this.navigationScreen(
-                                    game.gameName, game.gameUri, game.platformUri, game.ratingBox, game.ratingMedia, game.ratingManual
+                                    game.gameName, game.gameUri, game.address, game.platformUri, game.ratingBox, game.ratingMedia, game.ratingManual
                                 )} />
                         </AnimatedView>
                     ))
@@ -236,6 +214,7 @@ class Main extends React.Component {
                     <Footer>
                         <WrapButton>
                             <Button
+                                disabled={this.state.buttonDisabled}
                                 custom={true}
                                 btColor={cmStyles.cl.second}
                                 onPress={() => this.nextGame()}>
@@ -245,6 +224,7 @@ class Main extends React.Component {
                         </WrapButton>
                         <WrapButton>
                             <Button
+                                disabled={this.state.buttonDisabled}
                                 custom={true}
                                 onPress={() => this.addGame()}>
                                 <Icon name='swap-horiz' color='#FFF' size={35} />

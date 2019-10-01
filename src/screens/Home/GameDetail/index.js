@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import BackButton from '../../../components/BackButton';
-import cmStyles from '../../../commonStyles';
 import { AirbnbRating } from 'react-native-ratings';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
     Container,
     FullCard,
@@ -12,7 +10,10 @@ import {
     WrapPlatform,
     PlatformImage,
     Content,
-    GameTitle,
+    WrapTitle,
+    Title,
+    WrapAddress,
+    Address,
     WrapRating,
     ItemRating,
     Label,
@@ -41,6 +42,7 @@ class GameDetail extends React.Component {
         const { navigation } = this.props;
 
         let title = navigation.getParam('title');
+        let address = navigation.getParam('address');
         let photo = navigation.getParam('photo');
         let platform = navigation.getParam('platform');
         let ratingBox = navigation.getParam('ratingBox');
@@ -59,11 +61,14 @@ class GameDetail extends React.Component {
                     </WrapPlatform>
 
                     <Content>
-                        {/* start={{ x: 0, y: 1 }}
-                        end={{ x: 0, y: 0 }}
-                        colors={['rgba(0,0,0,.9)', 'rgba(0,0,0,.0)']}> */}
 
-                        <GameTitle>{title}</GameTitle>
+                        <WrapTitle>
+                            <Title>{title}</Title>
+
+                            <WrapAddress>
+                                <Icon name='map-marker' size={15} color='#333' /><Address>{address}</Address>
+                            </WrapAddress>
+                        </WrapTitle>
 
                         <WrapRating>
                             <ItemRating>

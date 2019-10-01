@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from '../../../assets/img/distrava.png';
-import bg from '../../../assets/img/bg.png';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import ButtonLink from '../../components/ButtonLink';
+import logo from '../../../../assets/img/distrava.png';
+import bg from '../../../../assets/img/bg.png';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import ButtonLink from '../../../components/ButtonLink';
 import { 
     Container,
     BackgroundPattern,
@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
 
             </WrapForm>
 
-            <ButtonLink>Ainda não possui conta?</ButtonLink>
+            <ButtonLink onPress={() => navigation.navigate('Signup')}>Ainda não possui conta?</ButtonLink>
         </Container>
     )
 }

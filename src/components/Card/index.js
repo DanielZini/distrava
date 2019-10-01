@@ -1,13 +1,14 @@
 import React from 'react';
-import { Animated } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import loafingGif from '../../../assets/img/loading.gif';
 import { TouchableOpacity } from 'react-native';
 import {
-    Container,
     Card,
     GameImage,
     WrapTitle,
     Title,
+    WrapAddress,
+    Address,
     WrapPlatform,
     LogoPlatform,
     WrapLoadingGif,
@@ -16,43 +17,27 @@ import {
 
 export default props => {
 
-    // moveAnimation = new Animated.ValueXY({ x: 0, y: 0 })
-    // fadeAnimation = new Animated.Value(1)
-
-    // componentDidMount =  () => {
-        
-    // }
-    // animationNextGame = async  () => {
-    //     await Animated.parallel([
-    //         await Animated.timing(this.fadeAnimation, {
-    //             toValue: 0,
-    //             duration: 300
-    //         }),
-    //         await Animated.spring(this.moveAnimation, {
-    //             toValue: { x: 200, y: -200 },
-    //             duration: 1000
-    //         }),
-    //     ]).start();
-    // }
-
     return (
-        // <Container style={{ zIndex: props.order}}>
-            <Card>
-                <TouchableOpacity onPress={props.onPress} style={{zIndex: 2,width: '100%', height: '100%'}}>
-                    <GameImage source={{ uri: props.gameSrc }} />
+        <Card>
+            <TouchableOpacity onPress={props.onPress} style={{zIndex: 2,width: '100%', height: '100%'}}>
+                <WrapPlatform>
+                    <LogoPlatform source={{ uri: props.platformSrc }} />
+                </WrapPlatform>
+                <GameImage source={{ uri: props.gameSrc }} />
 
-                    {/* <WrapTitle>
-                        <Title>{props.title}</Title>
-                    </WrapTitle> */}
 
-                    <WrapPlatform>
-                        <LogoPlatform source={{ uri: props.platformSrc }} />
-                    </WrapPlatform>
-                </TouchableOpacity>
-                <WrapLoadingGif>
-                    <LoadingGif source={loafingGif} />
-                </WrapLoadingGif>
-            </Card>
-        // </Container>
+                <WrapTitle>
+                    <Title>{props.title}</Title>
+
+                    <WrapAddress>
+                        <Icon name='map-marker' size={15} color='#333' /><Address>{props.address}</Address>
+                    </WrapAddress>
+                </WrapTitle>
+
+            </TouchableOpacity>
+            <WrapLoadingGif>
+                <LoadingGif source={loafingGif} />
+            </WrapLoadingGif>
+        </Card>
     )
 }

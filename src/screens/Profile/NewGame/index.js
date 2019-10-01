@@ -268,7 +268,6 @@ class NewGame extends React.Component {
                         this.setState({ currentPage: page.position })
                     }}>
                     
-
                     {/* COMEÇA STEPS -------------------------------------------------- */}
 
                     <ItemStep key="0">

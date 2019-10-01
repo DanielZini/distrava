@@ -6,6 +6,8 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import cmStyle from '../../../commonStyles';
 import FlashMessage, { showMessage, hideMessage } from 'react-native-flash-message';
+import ImagePicker from 'react-native-image-picker';
+import { ScrollView } from 'react-native-gesture-handler';
 import { 
     Container,
     Content,
@@ -15,10 +17,11 @@ import {
     TouchArea,
     WrapForm,
 } from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const dataUser = 
 {
+    preview: defaultProfile,
+    image: '',
     name: 'Daniel Zini da Silva',
     city: 'Elias Fausto',
     state: 'SP',
@@ -38,6 +41,8 @@ class Edit extends React.Component {
     };
 
     state = {
+        preview: '',
+        image: '',
         name: '',
         city: '',
         state: '',
@@ -58,6 +63,44 @@ class Edit extends React.Component {
         });
     };
 
+    handleSelectImage = () => {
+        ImagePicker.showImagePicker(
+            {
+                title: "Selecionar Imagem"
+            },
+            upload => {
+                if (upload.error) {
+                    console.log("Error");
+                } else if (upload.didCancel) {
+                    console.log("User canceled");
+                } else {
+                    const preview = {
+                        uri: `data:image/jpeg;base64,${upload.data}`
+                    };
+
+                    let prefix;
+                    let ext;
+
+                    if (upload.fileName) {
+                        [prefix, ext] = upload.fileName.split(".");
+                        ext = ext.toLowerCase() === "heic" ? "jpg" : ext;
+                    } else {
+                        prefix = new Date().getTime();
+                        ext = "jpg";
+                    }
+
+                    const image = {
+                        uri: upload.uri,
+                        type: upload.type,
+                        name: `${prefix}.${ext}`
+                    };
+
+                    this.setState({ preview, image });
+                }
+            }
+        );
+    };
+
     render(){
         return(
             <Container>
@@ -65,8 +108,8 @@ class Edit extends React.Component {
                     <Content>
 
                         <WrapImg>
-                            <TouchArea>
-                                <ImgProfile source={defaultProfile}/>
+                            <TouchArea onPress={this.handleSelectImage}>
+                                <ImgProfile source={this.state.preview}/>
                                 <LabelEdit>Trocar foto</LabelEdit>
                             </TouchArea>
                         </WrapImg>

@@ -2,7 +2,10 @@ import React from 'react'
 import cmStyles from './commonStyles';
 
 import Header from './components/Header';
-import Login from './screens/Login';
+
+// Auth
+import Login from './screens/Auth/Login';
+import Signup from './screens/Auth/Signup';
 
 // Games card
 import GameDetail from './screens/Home/GameDetail';
@@ -98,9 +101,27 @@ ProfileStack.navigationOptions = ({ navigation }) => {
 export default createRoutes = createAppContainer(
         createSwitchNavigator(
             {
-                Auth: createSwitchNavigator(
+                Auth: createStackNavigator(
                     {
-                        Login,
+                        Login: {
+                            screen: Login,
+                            navigationOptions: {
+                                header: null,
+                            },
+                        },
+                        Signup
+                    },
+                    {
+                        initialRouteName: 'Login',
+                        defaultNavigationOptions: {
+                            headerStyle: {
+                                backgroundColor: cmStyles.cl.second,
+                            },
+                            headerTintColor: '#FFFFFF',
+                            headerTitleStyle: {
+                                fontFamily: cmStyles.fontRegular
+                            }
+                        }
                     }
                 ),
                 App: createMaterialTopTabNavigator(
@@ -116,7 +137,7 @@ export default createRoutes = createAppContainer(
                 ),
             },
             {
-                initialRouteName: 'App',
+                initialRouteName: 'Auth',
             }
         )
     );

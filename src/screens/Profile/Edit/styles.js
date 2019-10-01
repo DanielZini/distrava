@@ -50,6 +50,7 @@ export const TouchArea = styled.TouchableOpacity`
     height: 100%;
 `
 export const WrapForm = styled.View`
-    width: 300px;
+    width: 350px;
+    max-width: 100%
 
 `

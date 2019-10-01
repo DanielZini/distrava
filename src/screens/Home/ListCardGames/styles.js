@@ -46,7 +46,7 @@ export const EmptyAlert = styled.Text`
     text-align: center;
 `
 export const AnimatedView = styled(Animated.View)`
-    flex: 1;
+    /* flex: 1; */
     position: absolute;
     top: 0;
     left: 0;
@@ -55,4 +55,5 @@ export const AnimatedView = styled(Animated.View)`
     justify-content: center;
     align-items:center;
     background-color: #f5f5f5;
+    overflow: hidden;
 `

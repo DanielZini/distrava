@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import defaultProfile from '../../../../assets/img/defaultPerson.png';
 import ButtonMenu from '../../../components/ButtonMenu';
 import { 
@@ -19,9 +20,13 @@ const Menu = ({ navigation }) => {
     return(
         <Container>
             <Content>
-                <WrapImg>
-                    <ImgProfile source={defaultProfile}/>
-                </WrapImg>
+                <TouchableOpacity
+                    onPress={() => navScreen('EditProfile')}>
+                    <WrapImg>
+                        <ImgProfile source={defaultProfile}/>
+                    </WrapImg>
+                </TouchableOpacity>
+
                 <Name>Daniel Zini da Silva</Name>
 
                 <WrapMenu>

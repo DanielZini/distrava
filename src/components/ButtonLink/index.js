@@ -4,7 +4,7 @@ import { TextButton } from './styles';
 
 export default props => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
             <TextButton txtColor={props.txtColor}>{props.children}</TextButton>
         </TouchableOpacity>
     )

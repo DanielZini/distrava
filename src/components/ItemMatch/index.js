@@ -20,39 +20,38 @@ import {
 
 export default props => {
     return (
-        <Container inNegotiation={props.inNegotiation}>
-            {props.inNegotiation ?
+        <Container>
+            {props.status === 0 ?
             <TouchableOpacity onPress={props.doExchange}>
                 <WrapGames>
-                        <Game source={props.matchGame} />
-                        <WrapIcon>
-                                <IconExchange name='swap-horiz' />
-                        </WrapIcon>
-                        <Game source={props.myGame} />
+                    <Game source={{uri: props.matchGame}} />
+                    <WrapIcon>
+                        <IconExchange name='swap-horiz' />
+                    </WrapIcon>
+                    <Game source={{uri: props.myGame}} />
                 </WrapGames>
             </TouchableOpacity>
             :
             <WrapGames>
-                <Game source={props.matchGame} />
-                <Game source={props.myGame} />
+                <Game source={{ uri: props.matchGame}} />
+                <Game source={{ uri: props.myGame}} />
             </WrapGames>
             }
             <WrapChat>
                 <Person>
                     <View>
-                        <PersonPhoto source={props.photoProfile}/>
+                        <PersonPhoto source={props.personPhoto}/>
                     </View>
                     <View style={{flex:1,paddingHorizontal: 10, justifyContent: 'center'}}>
-                        <PersonName>{props.nameProfile}</PersonName>
-                        <PersonAddress>{props.addressProfile}</PersonAddress>
+                        <PersonName>{props.personName}</PersonName>
+                        <PersonAddress>{props.personAddress}</PersonAddress>
                     </View>
                 </Person>
-                {props.inNegotiation ?
+                {props.status === 0 ?
                     <WrapButtonChat>
                         <ButtonChat />
                     </WrapButtonChat>
-                :
-                    props.negotiationSuccess ?
+                : props.status === 1 ?
                         <WrapButtonChat>
                             <Icon name='handshake-o' size={40} color={cmStyles.cl.second} />
                         </WrapButtonChat>

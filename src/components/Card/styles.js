@@ -39,15 +39,29 @@ export const WrapTitle = styled.View`
     left: 0;
     right: 0;
     z-index:2;
-    justify-content:flex-end;
-    align-items:flex-end;
+    background-color: rgba(255, 255, 255, .85);
+    padding: 10px 15px;
 `
 export const Title = styled.Text`
     font-family: ${cmStyles.fontRegular};
     font-size: 16px;
+    color: #333;
+    text-align: center;
     color: ${cmStyles.cl.primary};
-    padding: 10px 15px;
-    background-color: rgba(255, 255, 255, .85);
+    margin-bottom: 3px;
+`
+export const WrapAddress = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+`
+export const Address = styled.Text`
+    font-family: ${cmStyles.fontLight};
+    font-size: 12px;
+    color: #333333;
+    margin-left: 5px;
+    text-transform: uppercase;
 `
 export const WrapPlatform = styled.View`
     position: absolute;
@@ -57,8 +71,9 @@ export const WrapPlatform = styled.View`
     height: 60px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 10px;
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, .9);
     padding: 5px;
+    z-index: 5;
 `
 export const LogoPlatform = styled.Image`
     position: relative;

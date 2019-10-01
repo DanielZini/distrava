@@ -56,14 +56,29 @@ export const Content = styled.View`
     left: 0;
     justify-content: flex-end;
 `
-export const GameTitle = styled.Text`
-    font-family: ${cmStyles.fontRegular};
-    font-size: 22px;
-    /* color: ${cmStyles.cl.primary}; */
-    color: #333333;
-    padding: 10px 40px;
-    text-align: center;
+export const WrapTitle = styled.View`
+    z-index:2;
     background-color: rgba(255, 255, 255, .85);
+    padding: 10px 15px;
+`
+export const Title = styled.Text`
+    font-family: ${cmStyles.fontRegular};
+    font-size: 18px;
+    color: ${cmStyles.cl.primary};
+    text-align: center;
+`
+export const WrapAddress = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+`
+export const Address = styled.Text`
+    font-family: ${cmStyles.fontRegular};
+    font-size: 14px;
+    color: #333333;
+    margin-left: 5px;
+    text-transform: uppercase;
 `
 export const WrapRating = styled.View`
     flex-direction: row;
