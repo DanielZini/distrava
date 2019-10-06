@@ -6,12 +6,12 @@ import InputSearch from '../../../components/InputSearch';
 import cmStyles from '../../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconAwesome from 'react-native-vector-icons/FontAwesome';
-import { ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
 import StepIndicator from 'react-native-step-indicator';
 import CardMini from '../../../components/CardMini';
 import { AirbnbRating } from 'react-native-ratings';
 import CustomModal from '../../../components/CustomModal';
-import loafingGif from '../../../../assets/img/loading.gif';
+import loadingGif from '../../../../assets/img/loading.gif';
 import { 
     Container,
     NavSteps,
@@ -20,12 +20,14 @@ import {
     ButtonItem,
     WrapSearchInput,
     WrapRating,
+    ListCards,
     DescStep,
     ItemRating,
     Label,
     LoadingGif,
     TextModal,
 } from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 // custom styles
 const customStyles = {
@@ -84,18 +86,6 @@ const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     return iconConfig
 }
 
-const mocGames = [
-    {
-        id: 1,
-        active: false,
-        gameUri: gameUri,
-    },
-    {
-        id: 2,
-        active: false,
-        gameUri: gameUri,
-    },
-];
 const mocPlatforms = [
     {
         id: 1,
@@ -130,8 +120,11 @@ class NewGame extends React.Component {
     };
 
     state = {
-        modalRegisterVisible: false,
+        modalLoadingVisible: false,
+        statusLoading: '',
         modalSuccessRegisterVisible: false,
+        searchTerm: '',
+        notFoundMsg: '',
         currentPage: 0,
         gamesList: [],
         platformList: [],
@@ -141,6 +134,7 @@ class NewGame extends React.Component {
         rateMedia: 0,
         rateManual: 0,
     }
+    
 
     // componentWillReceiveProps(nextProps, nextState) {
     //     if (nextState.currentPage != this.state.currentPage) {
@@ -164,16 +158,62 @@ class NewGame extends React.Component {
     }
 
     // Functions games ------------------------------
-    searchGame = () => {
+    searchGame = async () => {
         Keyboard.dismiss();
-        this.setState({ gamesList: mocGames, platformList: mocPlatforms });
+
+        let listGames = [];
+        let gameUri = null;
+
+        this.setState({ statusLoading: 'Procurando jogos', modalLoadingVisible: true });
+
+        await axios({
+            url: "https://api-v3.igdb.com/games",
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'user-key': '45e1065af8ec5abffd737abcde75a386'
+            },
+            data: `fields name, cover.image_id; search "${this.state.searchTerm}"; where platforms.category = (5, 1); limit 50;`
+        })
+            .then(response => {
+
+                if (response.data){
+
+                    response.data.forEach(el => {
+
+                        if ('cover' in el){
+                            gameUri = el['cover'].image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${el['cover'].image_id}.jpg` : loadingGif;
+                        }
+
+                        listGames.push({
+                            active: false,
+                            id: el.id,
+                            gameUri: gameUri,
+                            name: el.name,
+                        });
+                    });
+                }
+
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        this.setState({ 
+            gamesList: listGames,
+            modalLoadingVisible: false,
+            notFoundMsg: 'Nenhum jogo encontrado!'
+        });
     }
 
-    onSelectGame = (id) => {
+    onSelectGame = async (id) => {
 
         let selectedGame = [];
+        let listPlatform = [];
+        let platformUri = null;
+        this.setState({ selectedPlatform: [] })
 
-        const games = this.state.gamesList.map(game => {
+        const games = await this.state.gamesList.map(game => {
 
             if (game.id === id) {
                 game = { ...game };
@@ -186,7 +226,48 @@ class NewGame extends React.Component {
             return game;
         })
 
-        this.setState({ gamesList: games, selectedGame });
+        await this.setState({ gamesList: games, selectedGame });
+
+        await axios({
+            url: "https://api-v3.igdb.com/games",
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'user-key': '45e1065af8ec5abffd737abcde75a386'
+            },
+            data: `fields platforms.name, platforms.platform_logo.image_id; where id = ${selectedGame.id}; limit 50;`
+        })
+            .then(response => {
+
+                if (response.data) {
+
+                    response.data[0]['platforms'].forEach(el => {
+
+                        console.log(el);
+                        
+
+                        if ('platform_logo' in el) {
+                            platformUri = el['platform_logo'].image_id ? `https://images.igdb.com/igdb/image/upload/t_logo_med/${el['platform_logo'].image_id}.png` : loadingGif;
+                        }
+
+                        listPlatform.push({
+                            active: false,
+                            id: el.id,
+                            platformUri: platformUri,
+                            name: el.name,
+                        });
+                    });
+                }
+
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        this.setState({
+            platformList: listPlatform,
+        });
+
     }
 
     onSelectPlatform = (id) => {
@@ -208,17 +289,18 @@ class NewGame extends React.Component {
         })
         this.setState({ platformList: platforms, selectedPlatform });
 
-        setTimeout(() => {
-            console.log(this.state.selectedGame);
-            console.log(this.state.selectedPlatform);
-        }, 1000);
     }
 
     registerGame = () => {
-        this.setState({ modalRegisterVisible: true} );
+        this.setState({ modalLoadingVisible: true, statusLoading: 'Salvando jogo'} );
 
+        console.log(this.state.selectedGame)
+        console.log(this.state.selectedPlatform)
+        console.log(this.state.rateBox)
+        console.log(this.state.rateMedia)
+        console.log(this.state.rateManual)
         setTimeout(() => {
-            this.setState({ modalRegisterVisible: false });
+            this.setState({ modalLoadingVisible: false });
             this.setState({ modalSuccessRegisterVisible: true });
         }, 2000);
         setTimeout(() => {
@@ -232,10 +314,10 @@ class NewGame extends React.Component {
             <Container>
 
                 <CustomModal
-                    modalVisible={this.state.modalRegisterVisible}
+                    modalVisible={this.state.modalLoadingVisible}
                     disabledClose={true}>
-                    <LoadingGif source={loafingGif} />
-                    <TextModal>Cadastrando...</TextModal>
+                    <LoadingGif source={loadingGif} />
+                    <TextModal>{this.state.statusLoading}</TextModal>
                 </CustomModal>
                 <CustomModal
                     modalVisible={this.state.modalSuccessRegisterVisible}
@@ -272,16 +354,34 @@ class NewGame extends React.Component {
 
                     <ItemStep key="0">
                         <WrapSearchInput>
-                            <InputSearch placeholder='Busque seu jogo' onSearch={() => this.searchGame()} />
+                            <InputSearch 
+                                placeholder='Busque seu jogo' 
+                                onSearch={() => this.searchGame()}
+                                value={this.state.searchTerm}
+                                onChangeText={searchTerm => this.setState({ searchTerm })} />
                         </WrapSearchInput>
-                        <FlatList
-                            columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 15 }}
-                            numColumns={2}
-                            data={this.state.gamesList}
-                            keyExtractor={item => item.id}
-                            renderItem={({ item }) =>
-                                <CardMini {...item} newGame={true} onSelect={() => this.onSelectGame(item.id)} />}
-                        />
+                        <ScrollView 
+                            >
+                            <ListCards>
+                        {
+                            this.state.gamesList.length > 0 ?
+
+                            this.state.gamesList.map((game, index) => (
+
+                                <CardMini
+                                    key={game.id}
+                                    {...game}
+                                    newGame={true}
+                                    onSelect={() => this.onSelectGame(game.id)} />
+                            ))
+
+                            :
+                            
+                            <DescStep>{ this.state.notFoundMsg }</DescStep>
+
+                        }
+                            </ListCards>
+                        </ScrollView>
                     </ItemStep>
 
                     <ItemStep key="1">
@@ -292,7 +392,7 @@ class NewGame extends React.Component {
                             data={this.state.platformList}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) =>
-                                <CardMini {...item} newGame={true} onSelect={() => this.onSelectPlatform(item.id)} />}
+                                <CardMini {...item} isPlatform={true} newGame={true} onSelect={() => this.onSelectPlatform(item.id)} />}
                         />
 
                     </ItemStep>

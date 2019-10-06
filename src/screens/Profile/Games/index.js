@@ -120,7 +120,7 @@ class Games extends React.Component {
                 <Container>
 
                     <ItemGame>
-                        <TouchArea onPress={() => navigation.navigate('NewGame')}>
+                        <TouchArea onPress={navigation.navigate('NewGame')}>
                             <Icon name='add-circle-outline' size={60} color='#AAAAAA' />
                         </TouchArea>
                     </ItemGame>
@@ -128,6 +128,7 @@ class Games extends React.Component {
                     {
                         this.state.listGames.map((game, index) => (
                             <CardMini
+                                key={game.id}
                                 newGame={false}
                                 onExclude={() => this.excludeGame(1)}
                                 onOpen={() =>this.navGameDetail(game.gameName, game.gameUri, game.platformUri, game.ratingBox, game.ratingMedia, game.ratingManual)}

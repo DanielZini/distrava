@@ -30,7 +30,7 @@ const Menu = ({ navigation }) => {
                 <Name>Daniel Zini da Silva</Name>
 
                 <WrapMenu>
-                    <ButtonMenu onPress={() => navScreen('GamesProfile')} icon='gamepad'>Meus Jogos</ButtonMenu>
+                    <ButtonMenu onPress={navScreen('GamesProfile')} icon='gamepad'>Meus Jogos</ButtonMenu>
                     <ButtonMenu onPress={() => navScreen('EditProfile')} icon='edit'>Editar Perfil</ButtonMenu>
                     {/* <ButtonMenu onPress={() => navScreen('ConfigProfile')} icon='settings'>Preferências</ButtonMenu> */}
                     <ButtonMenu onPress={() => navScreen('CopyrightProfile')} icon='copyright' border='0px'>Sobre</ButtonMenu>

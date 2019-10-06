@@ -10,6 +10,8 @@ export const NavSteps = styled.View`
     margin: 20px 0 0 0;
 `
 export const ItemStep = styled.View`
+    width: 100%;
+    height: 100%;
     padding: 20px 0 0 0;
 `
 export const WrapActionButtons = styled.View`
@@ -26,6 +28,7 @@ export const WrapSearchInput = styled.View`
     margin-bottom: 10px;
 `
 export const ListCards = styled.View`
+    padding: 0 15px;
     flex: 1;
     flex-direction: row;
     flex-wrap: wrap;

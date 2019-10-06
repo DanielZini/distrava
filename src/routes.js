@@ -132,12 +132,12 @@ export default createRoutes = createAppContainer(
                     },
                     {
                         tabBarComponent: Header,
-                        initialRouteName: 'Home',
+                        initialRouteName: 'Profile',
                     }
                 ),
             },
             {
-                initialRouteName: 'Auth',
+                initialRouteName: 'App',
             }
         )
     );
