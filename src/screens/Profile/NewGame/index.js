@@ -31,8 +31,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 // custom styles
 const customStyles = {
-    stepIndicatorSize: 50,
-    currentStepIndicatorSize: 60,
+    stepIndicatorSize: 45,
+    currentStepIndicatorSize: 50,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
     stepStrokeCurrentColor: '#E04825',
@@ -64,7 +64,7 @@ const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
         name: 'feed',
         color: stepStatus === 'finished' ? '#ffffff' : '#E04825',
-        size: 30
+        size: 25
     }
     switch (position) {
         case 0: {
@@ -294,11 +294,6 @@ class NewGame extends React.Component {
     registerGame = () => {
         this.setState({ modalLoadingVisible: true, statusLoading: 'Salvando jogo'} );
 
-        console.log(this.state.selectedGame)
-        console.log(this.state.selectedPlatform)
-        console.log(this.state.rateBox)
-        console.log(this.state.rateMedia)
-        console.log(this.state.rateManual)
         setTimeout(() => {
             this.setState({ modalLoadingVisible: false });
             this.setState({ modalSuccessRegisterVisible: true });
