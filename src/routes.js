@@ -2,6 +2,7 @@ import React from 'react'
 import cmStyles from './commonStyles';
 
 import Header from './components/Header';
+import AuthOrApp from './screens/AuthOrApp';
 
 // Auth
 import Login from './screens/Auth/Login';
@@ -101,6 +102,9 @@ ProfileStack.navigationOptions = ({ navigation }) => {
 export default createRoutes = createAppContainer(
         createSwitchNavigator(
             {
+                LoadingPage: {
+                    screen: AuthOrApp
+                },
                 Auth: createStackNavigator(
                     {
                         Login: {
@@ -109,7 +113,7 @@ export default createRoutes = createAppContainer(
                                 header: null,
                             },
                         },
-                        Signup
+                        Signup,
                     },
                     {
                         initialRouteName: 'Login',
@@ -132,12 +136,13 @@ export default createRoutes = createAppContainer(
                     },
                     {
                         tabBarComponent: Header,
-                        initialRouteName: 'Profile',
+                        initialRouteName: 'Home',
                     }
                 ),
             },
             {
-                initialRouteName: 'App',
+                // initialRouteName: 'App',
+                initialRouteName: 'LoadingPage',
             }
         )
     );

@@ -1,9 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import FlashMessage, { showMessage, hideMessage } from 'react-native-flash-message';
 import { ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
+import { server, showError } from '../../../common';
 import {
     Container,
     WrapForm,
@@ -28,14 +30,30 @@ class Signup extends React.Component {
         password: '',
     }
 
-    createAccount = () => {
-        showMessage({
-            message: "Conta Criada!",
-            type: "success",
-        });
-        setTimeout(() => {
-            this.props.navigation.goBack();
-        }, 1000);
+    createAccount = async () => {
+        Keyboard.dismiss();
+
+        try {
+            await axios.post(`${server}/signup`, {
+                name: this.state.name,
+                city: this.state.city,
+                state: this.state.state,
+                whatsapp: this.state.whatsapp,
+                email: this.state.email,
+                password: this.state.password
+            });
+
+            showMessage({
+                message: "Conta Criada!",
+                type: "success",
+            });
+            setTimeout(() => {
+                this.props.navigation.goBack();
+            }, 1000);
+
+        } catch (err) {
+            showError(err);
+        }
     };
 
 
@@ -82,7 +100,7 @@ class Signup extends React.Component {
                                 onChangeText={email => this.setState({ email })} />
                             <Input
                                 secureTextEntry={true}
-                                placeholder='Senha atual'
+                                placeholder='Senha'
                                 value={this.state.password}
                                 onChangeText={password => this.setState({ password })} />
 

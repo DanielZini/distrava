@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Keyboard, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import defaultProfile from '../../../../assets/img/defaultPerson.png';
 import Input from '../../../components/Input';
@@ -8,6 +8,8 @@ import cmStyle from '../../../commonStyles';
 import FlashMessage, { showMessage, hideMessage } from 'react-native-flash-message';
 import ImagePicker from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
+import { server, showError } from '../../../common';
 import { 
     Container,
     Content,
@@ -17,19 +19,6 @@ import {
     TouchArea,
     WrapForm,
 } from './styles';
-
-const dataUser = 
-{
-    preview: defaultProfile,
-    image: '',
-    name: 'Daniel Zini da Silva',
-    city: 'Elias Fausto',
-    state: 'SP',
-    email: 'daniel@jgwebcom.com',
-    whatsapp: '(19) 99617-0919',
-    password: '',
-    newPassword: '',
-}
 
 class Edit extends React.Component {
 
@@ -41,8 +30,8 @@ class Edit extends React.Component {
     };
 
     state = {
-        preview: '',
-        image: '',
+        preview: defaultProfile,
+        image: defaultProfile,
         name: '',
         city: '',
         state: '',
@@ -53,14 +42,42 @@ class Edit extends React.Component {
     }
 
     componentDidMount = async () => {
-        this.setState({ ...dataUser });
+        
+        const json = await AsyncStorage.getItem('userData')
+        const userData = JSON.parse(json) || {}
+        
+        this.setState({
+            name: userData.name,
+            city: userData.city,
+            state: userData.state,
+            email: userData.email,
+            whatsapp: userData.whatsapp,
+        })
     }
 
-    updateProfile = () => {
-        showMessage({
-            message: "Cadastro atualizado!",
-            type: "success",
-        });
+    updateProfile = async () => {
+        Keyboard.dismiss();
+
+        try{
+            await axios.post(`${server}/update-user`, {
+                name: this.state.name,
+                city: this.state.city,
+                state: this.state.state,
+                email: this.state.email,
+                whatsapp: this.state.whatsapp,
+            });
+
+            showMessage({
+                message: "Cadastro atualizado!",
+                type: "success",
+            });
+        }catch{
+            showMessage({
+                message: "Algo deu errado!",
+                type: "error",
+            });
+        }
+
     };
 
     handleSelectImage = () => {
@@ -100,6 +117,12 @@ class Edit extends React.Component {
             }
         );
     };
+
+    logout = () => {
+        delete axios.defaults.headers.common['Authorization'];
+        AsyncStorage.removeItem('userData');
+        this.props.navigation.navigate('LoadingPage');
+    }
 
     render(){
         return(
@@ -165,7 +188,8 @@ class Edit extends React.Component {
                                     Atualizar
                                 </Button>
                             </View>
-                            <Button 
+                            <Button
+                                onPress={() => this.logout()}
                                 btColor={cmStyle.cl.second}>
                                 Sair
                             </Button>

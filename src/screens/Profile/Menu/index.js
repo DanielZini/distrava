@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, AsyncStorage } from 'react-native';
 import defaultProfile from '../../../../assets/img/defaultPerson.png';
 import ButtonMenu from '../../../components/ButtonMenu';
 import { 
@@ -11,34 +11,51 @@ import {
     WrapMenu,
 } from './styles';
 
-const Menu = ({ navigation }) => {
+class Menu extends React.Component {
 
-    const navScreen = (screen) => {
-        navigation.navigate(screen);
+    state = {
+        name: '',
+        photo: '',
     }
 
-    return(
-        <Container>
-            <Content>
-                <TouchableOpacity
-                    onPress={() => navScreen('EditProfile')}>
-                    <WrapImg>
-                        <ImgProfile source={defaultProfile}/>
-                    </WrapImg>
-                </TouchableOpacity>
+    navScreen = (screen) => {
+        this.props.navigation.navigate(screen);
+    }
 
-                <Name>Daniel Zini da Silva</Name>
+    componentDidMount = async () => {
+        const json = await AsyncStorage.getItem('userData')
+        const userData = JSON.parse(json) || {}
 
-                <WrapMenu>
-                    <ButtonMenu onPress={navScreen('GamesProfile')} icon='gamepad'>Meus Jogos</ButtonMenu>
-                    <ButtonMenu onPress={() => navScreen('EditProfile')} icon='edit'>Editar Perfil</ButtonMenu>
-                    {/* <ButtonMenu onPress={() => navScreen('ConfigProfile')} icon='settings'>Preferências</ButtonMenu> */}
-                    <ButtonMenu onPress={() => navScreen('CopyrightProfile')} icon='copyright' border='0px'>Sobre</ButtonMenu>
-                </WrapMenu>
-            </Content>
+        this.setState({ name: userData.name })
+    }
+    
+    render(){
+        
+        return(
             
-        </Container>
-    )
+            <Container>
+                <Content>
+                    <TouchableOpacity
+                        onPress={() => this.navScreen('EditProfile')}>
+                        <WrapImg>
+                            <ImgProfile source={ defaultProfile }/>
+                        </WrapImg>
+                    </TouchableOpacity>
+    
+                    <Name>{this.state.name}</Name>
+    
+                    <WrapMenu>
+                        <ButtonMenu onPress={() => this.navScreen('GamesProfile')} icon='gamepad'>Meus Jogos</ButtonMenu>
+                        <ButtonMenu onPress={() => this.navScreen('EditProfile')} icon='edit'>Editar Perfil</ButtonMenu>
+                        {/* <ButtonMenu onPress={() => this.navScreen('ConfigProfile')} icon='settings'>Preferências</ButtonMenu> */}
+                        <ButtonMenu onPress={() => this.navScreen('CopyrightProfile')} icon='copyright' border='0px'>Sobre</ButtonMenu>
+                    </WrapMenu>
+                </Content>
+                
+            </Container>
+        )
+
+    }
 }
 
 export default Menu;

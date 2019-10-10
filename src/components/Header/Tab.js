@@ -2,7 +2,7 @@ import React from "react"
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import symbol from '../../../assets/img/symbolDistrava_n.png';
 import symbolD from '../../../assets/img/symbolDistrava_n2.png';
-import { TouchableOpacity } from "react-native"
+import { TouchableOpacity, Text } from "react-native"
 import {
     ItemGrid,
     ButtonMenu,

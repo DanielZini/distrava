@@ -124,7 +124,7 @@ class NewGame extends React.Component {
         statusLoading: '',
         modalSuccessRegisterVisible: false,
         searchTerm: '',
-        notFoundMsg: '',
+        callBackMsgFirstStep: '',
         currentPage: 0,
         gamesList: [],
         platformList: [],
@@ -177,7 +177,9 @@ class NewGame extends React.Component {
         })
             .then(response => {
 
-                if (response.data){
+                if (response.data.length > 0){
+                    
+                    this.setState({ callBackMsgFirstStep: 'Selecione seu jogo e toque em próximo' });
 
                     response.data.forEach(el => {
 
@@ -192,6 +194,8 @@ class NewGame extends React.Component {
                             name: el.name,
                         });
                     });
+                }else{
+                    this.setState({ callBackMsgFirstStep: 'Nenhum jogo encontrado!' });
                 }
 
             })
@@ -202,7 +206,6 @@ class NewGame extends React.Component {
         this.setState({ 
             gamesList: listGames,
             modalLoadingVisible: false,
-            notFoundMsg: 'Nenhum jogo encontrado!'
         });
     }
 
@@ -355,11 +358,12 @@ class NewGame extends React.Component {
                                 value={this.state.searchTerm}
                                 onChangeText={searchTerm => this.setState({ searchTerm })} />
                         </WrapSearchInput>
-                        <ScrollView 
-                            >
+                        <DescStep>{this.state.callBackMsgFirstStep}</DescStep>
+                        <ScrollView>
+
                             <ListCards>
                         {
-                            this.state.gamesList.length > 0 ?
+                            this.state.gamesList.length > 0 &&
 
                             this.state.gamesList.map((game, index) => (
 
@@ -369,10 +373,6 @@ class NewGame extends React.Component {
                                     newGame={true}
                                     onSelect={() => this.onSelectGame(game.id)} />
                             ))
-
-                            :
-                            
-                            <DescStep>{ this.state.notFoundMsg }</DescStep>
 
                         }
                             </ListCards>
@@ -393,7 +393,7 @@ class NewGame extends React.Component {
                     </ItemStep>
 
                     <ItemStep key="2">
-                        <DescStep>Atribua uma nota de 1 a 5 para seu jogo</DescStep>
+                        <DescStep>Atribua uma nota de 1 a 5 para o estado em que se encontra seu jogo</DescStep>
                         <WrapRating>
                             <ItemRating>
                                 <Label>Caixa</Label>
@@ -401,7 +401,7 @@ class NewGame extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={0}
-                                    size={40}
+                                    size={35}
                                     showRating={false}
                                     onFinishRating={rating => this.setState({ rateBox: rating })}
                                 />
@@ -412,7 +412,7 @@ class NewGame extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={0}
-                                    size={40}
+                                    size={35}
                                     showRating={false}
                                     onFinishRating={rating => this.setState({rateMedia: rating})}
                                 />
@@ -423,7 +423,7 @@ class NewGame extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={0}
-                                    size={40}
+                                    size={35}
                                     showRating={false}
                                     onFinishRating={rating => this.setState({rateManual: rating})}
                                 />

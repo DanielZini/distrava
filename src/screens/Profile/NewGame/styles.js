@@ -40,10 +40,9 @@ export const DescStep = styled.Text`
     font-size: 14px;
     text-align: center;
     margin-bottom: 15px;
+    padding: 0 40px;
     color: ${cmStyles.cl.primary};
 `
-
-
 export const WrapRating = styled.View`
     flex: 1;
     justify-content: center;
