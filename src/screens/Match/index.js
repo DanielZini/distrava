@@ -8,6 +8,8 @@ import ItemMatch from '../../components/ItemMatch';
 import CustomModal from '../../components/CustomModal';
 import Button from '../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+import { server, showError } from '../../../common';
 import {
     Container,
     EmptyAlert,
@@ -112,15 +114,6 @@ class Match extends Component {
                         ))
                     }
 
-                    {/* <ItemMatch
-                        myGame={gameImg}
-                        matchGame={gameImg}
-                        personPhoto={defaultProfile}
-                        personName='Daniel Zini da Silva'
-                        personAddress='Indaiatuba/SP'
-                        status={0}
-                        doExchange={() => this.setModalVisible(true)}
-                        /> */}
                     </Container>
                 </ScrollView>
             :

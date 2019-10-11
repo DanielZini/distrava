@@ -3,59 +3,13 @@ import { View, Alert, FlatList, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-gesture-handler';
 import CardMini from '../../../components/CardMini';
+import axios from 'axios';
+import { server } from '../../../common';
 import { 
     Container,
     ItemGame,
     TouchArea,
 } from './styles';
-
-// config car game --------
-let gameName = 'The Legend of Zelda: Ocarina of Time 3D'
-
-let gameImageId = 'co1nl5';
-const gameUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big_2x/' + gameImageId + '.jpg';
-
-let platformImageId = 'pl6o';
-const platformUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + platformImageId + '.png';
-
-const mocListGame = [
-    {
-        id: 1,
-        gameName: 'The Legend of Zelda: Ocarina of Time 3D',
-        gameUri: gameUri,
-        platformUri: platformUri,
-        ratingBox: 5,
-        ratingMedia: 5,
-        ratingManual: 5,
-    },
-    {
-        id: 2,
-        gameName: 'The Legend of Zelda: Ocarina of Time 3D',
-        gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
-        platformUri: platformUri,
-        ratingBox: 5,
-        ratingMedia: 5,
-        ratingManual: 5,
-    },
-    {
-        id: 3,
-        gameName: 'The Legend of Zelda: Ocarina of Time 3D',
-        gameUri: gameUri,
-        platformUri: platformUri,
-        ratingBox: 5,
-        ratingMedia: 5,
-        ratingManual: 5,
-    },
-    {
-        id: 4,
-        gameName: 'The Legend of Zelda: Ocarina of Time 3D',
-        gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
-        platformUri: platformUri,
-        ratingBox: 5,
-        ratingMedia: 5,
-        ratingManual: 5,
-    },
-]
 
 class Games extends React.Component {
 
@@ -72,26 +26,36 @@ class Games extends React.Component {
     }
 
     componentDidMount() {
-        this.loadListGames();
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            this.loadListGames();
+        });
     }
 
-    loadListGames = () => {
+    loadListGames = async () => {
 
-        this.setState({ listGames: mocListGame })
+        try {
+            const res = await axios.get(`${server}/list-users-games`);
+            
+            this.setState({ listGames: res.data })
+
+        } catch (err) {
+            showError(err);
+        }
+
     }
 
-    navGameDetail = (name, photo, platform, ratingBox, ratingMedia, ratingManual, owner) => {
+    navGameDetail = (title, photo, platform, ratingBox, ratingMedia, ratingManual, myGame) => {
         this.props.navigation.navigate('GameDetail', {
-            title: name,
+            title,
             photo,
             platform,
             ratingBox,
             ratingMedia,
             ratingManual,
-            owner,
+            myGame
         });
     }
-    excludeGame = (id) => {
+    excludeGame = async (id) => {
         Alert.alert(
             'Alerta!',
             'Deseja excluir esse jogo? Essa ação é irreversível',
@@ -102,8 +66,16 @@ class Games extends React.Component {
                     style: 'cancel',
                 },
                 { 
-                    text: 'Excluir', onPress: () => {
-                        console.log('excluir');
+                    text: 'Excluir', onPress: async () => {
+
+                        try{
+                            await axios.delete(`${server}/delete-game/${id}`);
+                            Alert.alert('Alerta', 'Esse jogo foi excluído!');
+                            this.loadListGames();
+                        } catch(err) {
+                            showError(err);
+                        }
+
                     }
                 },
             ],
@@ -120,21 +92,24 @@ class Games extends React.Component {
                 <Container>
 
                     <ItemGame>
-                        <TouchArea onPress={navigation.navigate('NewGame')}>
+                        <TouchArea onPress={() => navigation.navigate('NewGame')}>
                             <Icon name='add-circle-outline' size={60} color='#AAAAAA' />
                         </TouchArea>
                     </ItemGame>
 
-                    {
-                        this.state.listGames.map((game, index) => (
-                            <CardMini
-                                key={game.id}
-                                newGame={false}
-                                onExclude={() => this.excludeGame(1)}
-                                onOpen={() =>this.navGameDetail(game.gameName, game.gameUri, game.platformUri, game.ratingBox, game.ratingMedia, game.ratingManual)}
-                                imgPlatform={game.platformUri}
-                                imgGame={game.gameUri} />
-                        ))
+                    { 
+                        this.state.listGames.length > 0 &&
+
+                            this.state.listGames.map((game, index) => (
+                                <CardMini
+                                    key={game.id}
+                                    newGame={false}
+                                    onExclude={() => this.excludeGame(game.id)}
+                                    imgPlatform={game.platform}
+                                    imgGame={game.photo}
+                                    status={game.status}
+                                    onOpen={() =>this.navGameDetail(game.name, game.photo, game.platform, game.ratingBox, game.ratingMedia, game.ratingManual, myGame = true)} />
+                            ))
                     }
                     
                    
@@ -145,7 +120,6 @@ class Games extends React.Component {
                         imgPlatform={platformUri}
                         imgGame={gameUri} /> */}
                     
-
                 </Container>
             </ScrollView>
         )

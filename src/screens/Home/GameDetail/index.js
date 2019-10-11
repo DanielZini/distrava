@@ -48,6 +48,7 @@ class GameDetail extends React.Component {
         let ratingBox = navigation.getParam('ratingBox');
         let ratingMedia = navigation.getParam('ratingMedia');
         let ratingManual = navigation.getParam('ratingManual');
+        let myGame = navigation.getParam('myGame');
 
         return(
             <Container>
@@ -65,9 +66,11 @@ class GameDetail extends React.Component {
                         <WrapTitle>
                             <Title>{title}</Title>
 
+                            {!myGame &&
                             <WrapAddress>
                                 <Icon name='map-marker' size={15} color='#333' /><Address>{address}</Address>
                             </WrapAddress>
+                            }
                         </WrapTitle>
 
                         <WrapRating>

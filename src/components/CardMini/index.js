@@ -10,6 +10,8 @@ import {
     WrapPlatform,
     PlatformImage,
     BigPlatformImage,
+    WrapStatus,
+    TextStatus
  } from './styles';
 
 export default props => {
@@ -37,6 +39,16 @@ export default props => {
                             <PlatformImage source={{ uri: props.imgPlatform }} />
                         </WrapPlatform>
                         <GameImage source={{ uri: props.imgGame }} />
+                    { props.status == 1 &&
+                        <WrapStatus>
+                            <TextStatus>EM TROCA!</TextStatus>
+                        </WrapStatus>
+                    }
+                    {props.status == 2 &&
+                        <WrapStatus>
+                            <TextStatus>TROCADO!</TextStatus>
+                        </WrapStatus>
+                    }
                     </TouchArea>
                 </Card>
             }

@@ -72,3 +72,20 @@ export const BigPlatformImage = styled.Image`
     resize-Mode: contain;
     opacity: ${props => props.active ? '.5' : '1'};
 `
+export const WrapStatus = styled.View`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .7);
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    z-index: 3;
+`
+export const TextStatus = styled.Text`
+    font-family: ${cmStyles.fontBold};
+    color: #FFFFFF;
+    font-size: 22px;
+`

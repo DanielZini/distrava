@@ -1,17 +1,18 @@
 import React from 'react';
-import { Text, FlatList, Keyboard } from 'react-native';
+import { Alert, FlatList, Keyboard } from 'react-native';
 import { ViewPager } from 'rn-viewpager'
 import Button from '../../../components/Button';
 import InputSearch from '../../../components/InputSearch';
 import cmStyles from '../../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconAwesome from 'react-native-vector-icons/FontAwesome';
-import axios from 'axios';
 import StepIndicator from 'react-native-step-indicator';
 import CardMini from '../../../components/CardMini';
 import { AirbnbRating } from 'react-native-ratings';
 import CustomModal from '../../../components/CustomModal';
 import loadingGif from '../../../../assets/img/loading.gif';
+import axios from 'axios';
+import { server } from '../../../common';
 import { 
     Container,
     NavSteps,
@@ -50,15 +51,6 @@ const customStyles = {
     labelSize: 16,
 }
 
-// config car game --------
-let gameName = 'The Legend of Zelda: Ocarina of Time 3D'
-
-let gameImageId = 'co1nl5';
-const gameUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big_2x/' + gameImageId + '.jpg';
-
-let platformImageId = 'pl6o';
-const platformUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + platformImageId + '.png';
-
 //renderiza icones na navegação
 const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     const iconConfig = {
@@ -85,30 +77,6 @@ const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
     }
     return iconConfig
 }
-
-const mocPlatforms = [
-    {
-        id: 1,
-        newGame: true,
-        isPlatform: true,
-        active: false,
-        platformUri: platformUri
-    },
-    {
-        id: 2,
-        newGame: true,
-        isPlatform: true,
-        active: false,
-        platformUri: platformUri
-    },
-    {
-        id: 3,
-        newGame: true,
-        isPlatform: true,
-        active: false,
-        platformUri: platformUri
-    },
-]
 
 class NewGame extends React.Component {
 
@@ -294,17 +262,35 @@ class NewGame extends React.Component {
 
     }
 
-    registerGame = () => {
-        this.setState({ modalLoadingVisible: true, statusLoading: 'Salvando jogo'} );
+    registerGame = async () => {
+        
+        try {
+            this.setState({ modalLoadingVisible: true, statusLoading: 'Salvando jogo'} );
+            
+            const game = {
+                gameName: this.state.selectedGame.name,
+                gameUri: this.state.selectedGame.gameUri,
+                platformUri: this.state.selectedPlatform.platformUri,
+                ratingBox: this.state.rateBox,
+                ratingMedia: this.state.rateMedia,
+                ratingManual: this.state.rateManual
+            }
+            
+            await axios.post(`${server}/save-game`,game);
 
-        setTimeout(() => {
+
             this.setState({ modalLoadingVisible: false });
             this.setState({ modalSuccessRegisterVisible: true });
-        }, 2000);
-        setTimeout(() => {
-            this.setState({ modalSuccessRegisterVisible: false });
-            this.props.navigation.goBack();
-        }, 5000);
+
+            setTimeout(() => {
+                this.setState({ modalSuccessRegisterVisible: false });
+                this.props.navigation.goBack();
+            }, 2000);
+
+        } catch (err) {
+            console.log(err);
+            
+        }
     }
 
     render(){
