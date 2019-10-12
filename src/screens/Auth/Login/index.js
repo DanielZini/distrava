@@ -38,6 +38,9 @@ class Login extends React.Component {
             this.props.navigation.navigate('App');
 
         } catch (err) {
+
+            console.log(err);
+            
             showMessage({
                 message: "Ops. Usuário ou senha inválidos!",
                 type: "warning",
@@ -66,7 +69,7 @@ class Login extends React.Component {
                     <Input icon='person'
                         autoCapitalize='none'
                         placeholder='E-mail'
-                        keyboardType="email-address"
+                        // keyboardType="email-address"
                         value={this.state.email}
                         onChangeText={email => this.setState({ email })} />
                     <Input icon='lock'

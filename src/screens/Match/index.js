@@ -2,54 +2,18 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import cmStyles from '../../commonStyles';
 import { ScrollView } from 'react-native-gesture-handler';
-import gameImg from '../../../assets/img/exemples/cover_2x.jpg';
-import defaultProfile from '../../../assets/img/defaultPerson.png';
 import ItemMatch from '../../components/ItemMatch';
 import CustomModal from '../../components/CustomModal';
 import Button from '../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
-import { server, showError } from '../../../common';
+import { server, showError } from '../../common';
+import FlashMessage, { showMessage, hideMessage } from 'react-native-flash-message';
 import {
     Container,
     EmptyAlert,
 } from './styles';
 
-// config car game --------
-let gameName = 'The Legend of Zelda: Ocarina of Time 3D'
-
-let gameImageId = 'co1nl5';
-const gameUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big_2x/' + gameImageId + '.jpg';
-
-const mocMatches = [
-    {
-        id: 1,
-        myGame: gameUri,
-        matchGame: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
-        personPhoto: defaultProfile,
-        personName: 'Daniel Zini da Silva',
-        personAddress: 'Indaiatuba/SP',
-        status: 0,
-    },
-    {
-        id: 2,
-        myGame: gameUri,
-        matchGame: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
-        personPhoto: defaultProfile,
-        personName: 'Daniel Zini da Silva',
-        personAddress: 'Indaiatuba/SP',
-        status: 1,
-    },
-    {
-        id: 3,
-        myGame: gameUri,
-        matchGame: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
-        personPhoto: defaultProfile,
-        personName: 'Daniel Zini da Silva',
-        personAddress: 'Indaiatuba/SP',
-        status: 2,
-    },
-]
 /**
  * status: 0 = aberto
  * status: 1 = trocado
@@ -58,18 +22,73 @@ class Match extends Component {
 
     state = {
         modalVisible: false,
-        matches: []
+        matches: [],
+        finishExchange: [],
     };
 
     componentDidMount() {
-        this.loadGames();
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            this.loadExchanges();
+        });
+
     }
-    loadGames = () => {
-        this.setState({ matches: mocMatches })
+
+    loadExchanges = async () => {
+
+        try {
+            const res = await axios.get(`${server}/get-exchanges`);
+
+            this.setState({ matches: res.data })
+
+        } catch (err) {
+            showError(err);
+        }
     }
 
     setModalVisible = (visible) => {
         this.setState({ modalVisible: visible });
+    }
+
+    getParamsStatus = (id_exchange, id_game_owner, id_match_game) => {
+
+        const params = {
+            id_exchange,
+            id_game_owner,
+            id_match_game
+        }
+
+        this.setState({ finishExchange: params})
+        this.setModalVisible(true)
+    }
+
+    updateStatusChange = async (params_exchange, status) => {
+
+        try{
+
+            await axios.post(`${server}/update-status-exchange`, {
+                id_exchange: params_exchange.id_exchange,
+                id_game_a: params_exchange.id_game_owner,
+                id_game_b: params_exchange.id_match_game,
+                status: status
+            });
+
+            this.loadExchanges();
+
+            showMessage({
+                message: "Troca encerrada!",
+                type: "success",
+            });
+        }catch(err){
+
+            showMessage({
+                message: "Algo deu errado",
+                type: "danger",
+                duration: 3000
+            });
+        }
+
+        this.setModalVisible(false)
+
     }
 
     render(){
@@ -86,12 +105,17 @@ class Match extends Component {
 
                         <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
                             <View style={{width: '48%'}}>
-                                <Button custom={true}>
+                                <Button 
+                                    custom={true}
+                                    onPress={() => this.updateStatusChange(this.state.finishExchange, 1)}>
                                     <Icon name='handshake-o' size={30} color='#FFFFFF'/>
                                 </Button>
                             </View>
                             <View style={{ width: '48%' }}>
-                                <Button custom={true} btColor={cmStyles.cl.second}>
+                                <Button 
+                                    custom={true}
+                                    btColor={cmStyles.cl.second}
+                                    onPress={() => this.updateStatusChange(this.state.finishExchange, 2)}>
                                     <Icon name='thumbs-o-down' size={30} color='#FFFFFF'/>
                                 </Button>
                             </View>
@@ -102,14 +126,17 @@ class Match extends Component {
                     {
                         this.state.matches.map((match, index) => (
                             <ItemMatch
-                                key={match.id}
-                                myGame={match.myGame}
-                                matchGame={match.matchGame}
-                                personPhoto={match.personPhoto}
-                                personName={match.personName}
-                                personAddress={match.personAddress}
-                                status={match.status}
-                                doExchange={() => this.setModalVisible(true)}
+                                key={match.id_exchange}
+                                myGamePhoto={match.ownerGamePhoto}
+                                myGameName={match.ownerGameName}
+                                matchGamePhoto={match.wantedGamePhoto}
+                                matchGameName={match.wantedGameName}
+                                personPhoto={server + '/' + match.wantedUserPhoto}
+                                personName={match.wantedUserName}
+                                personAddress={match.wantedUserCity + '/' + match.wantedUserState}
+                                personWhatsapp={'55' + match.wantedUserWhatsapp}
+                                status={match.status_exchange}
+                                doExchange={() => this.getParamsStatus(match.id_exchange, match.ownerGameId, match.wantedGameId)}
                             />
                         ))
                     }
@@ -122,6 +149,7 @@ class Match extends Component {
                 </View>
 
             }
+                <FlashMessage position="top" />
             </View>
         )
     }

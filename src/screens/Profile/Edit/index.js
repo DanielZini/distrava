@@ -16,6 +16,7 @@ import {
     WrapImg,
     ImgProfile,
     LabelEdit,
+    Label,
     TouchArea,
     WrapForm,
 } from './styles';
@@ -30,51 +31,74 @@ class Edit extends React.Component {
     };
 
     state = {
-        preview: defaultProfile,
-        image: defaultProfile,
+        preview: '',
+        image: '',
         name: '',
         city: '',
         state: '',
-        email: '',
         whatsapp: '',
         password: '',
         newPassword: '',
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         
-        const json = await AsyncStorage.getItem('userData')
-        const userData = JSON.parse(json) || {}
-        
-        this.setState({
-            name: userData.name,
-            city: userData.city,
-            state: userData.state,
-            email: userData.email,
-            whatsapp: userData.whatsapp,
-        })
+        this.loadUser();
+    }
+
+    loadUser = async () => {
+        try {
+            const res = await axios.get(`${server}/get-user`);
+
+            this.setState({
+                name: res.data.name,
+                preview: {
+                    uri: server + '/' + res.data.photo,
+                },
+                city: res.data.city,
+                state: res.data.state,
+                whatsapp: res.data.whatsapp,
+            })
+
+        } catch (err) {
+            showError(err);
+        }
     }
 
     updateProfile = async () => {
         Keyboard.dismiss();
-
+        
         try{
-            await axios.post(`${server}/update-user`, {
+
+            if(this.state.image){
+                const data = new FormData();
+                data.append('file', this.state.image);
+                data.append('type', this.state.image.type);
+
+                await axios.post(`${server}/upload-photo`, data);
+            }
+
+            const newUserData = {
                 name: this.state.name,
                 city: this.state.city,
                 state: this.state.state,
-                email: this.state.email,
                 whatsapp: this.state.whatsapp,
-            });
+                password: this.state.password,
+                newPassword: this.state.newPassword
+            }
+
+            await axios.post(`${server}/update-user`, newUserData);
 
             showMessage({
                 message: "Cadastro atualizado!",
                 type: "success",
             });
-        }catch{
+        }catch(err){
+
             showMessage({
-                message: "Algo deu errado!",
-                type: "error",
+                message: "Algo deu errado! Por favor, preencha os campos corretamente.",
+                type: "danger",
+                duration: 3000
             });
         }
 
@@ -83,7 +107,10 @@ class Edit extends React.Component {
     handleSelectImage = () => {
         ImagePicker.showImagePicker(
             {
-                title: "Selecionar Imagem"
+                title: "Selecionar Imagem",
+                cancelButtonTitle: "Cancelar",
+                takePhotoButtonTitle: "Tirar foto",
+                chooseFromLibraryButtonTitle: "Abrir galeria"
             },
             upload => {
                 if (upload.error) {
@@ -132,7 +159,7 @@ class Edit extends React.Component {
 
                         <WrapImg>
                             <TouchArea onPress={this.handleSelectImage}>
-                                <ImgProfile source={this.state.preview}/>
+                                <ImgProfile source={ this.state.preview }/>
                                 <LabelEdit>Trocar foto</LabelEdit>
                             </TouchArea>
                         </WrapImg>
@@ -161,16 +188,12 @@ class Edit extends React.Component {
                             </View>
 
                             <Input
-                                autoCapitalize='none'
-                                placeholder='E-mail'
-                                keyboardType="email-address"
-                                value={this.state.email}
-                                onChangeText={email => this.setState({ email })} />
-                            <Input
                                 type='cel-phone'
                                 placeholder='Whats App'
                                 value={this.state.whatsapp}
                                 onChangeText={whatsapp => this.setState({ whatsapp })} />
+                            
+                            <Label>Para trocar sua senha, informe a atual e nova nos campos abaixo:</Label>
                             <Input
                                 secureTextEntry={true}
                                 placeholder='Senha atual'

@@ -24,7 +24,7 @@ export const WrapGames = styled.View`
 `
 export const Game = styled.Image`
     width: 48%;
-    height: 170px;
+    height: 200px;
     border-radius: 10px;
     overflow: hidden;
     resize-mode: cover;

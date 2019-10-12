@@ -215,7 +215,10 @@ class NewGame extends React.Component {
                     response.data[0]['platforms'].forEach(el => {
 
                         console.log(el);
-                        
+
+                        if(el.id === 49){
+                            platformUri = server + '/xone.png'
+                        }
 
                         if ('platform_logo' in el) {
                             platformUri = el['platform_logo'].image_id ? `https://images.igdb.com/igdb/image/upload/t_logo_med/${el['platform_logo'].image_id}.png` : loadingGif;

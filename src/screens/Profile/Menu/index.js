@@ -2,6 +2,8 @@ import React from 'react';
 import { TouchableOpacity, AsyncStorage } from 'react-native';
 import defaultProfile from '../../../../assets/img/defaultPerson.png';
 import ButtonMenu from '../../../components/ButtonMenu';
+import axios from 'axios';
+import { server } from '../../../common';
 import { 
     Container,
     Content,
@@ -22,11 +24,24 @@ class Menu extends React.Component {
         this.props.navigation.navigate(screen);
     }
 
-    componentDidMount = async () => {
-        const json = await AsyncStorage.getItem('userData')
-        const userData = JSON.parse(json) || {}
+    componentDidMount = () => {
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            this.loadUser();
+        });
+    }
 
-        this.setState({ name: userData.name })
+    loadUser = async () => {
+        try {
+            const res = await axios.get(`${server}/get-user`);
+            
+            this.setState({
+                name: res.data.name,
+                photo: server + '/' + res.data.photo
+            })
+
+        } catch (err) {
+            showError(err);
+        }
     }
     
     render(){
@@ -38,7 +53,7 @@ class Menu extends React.Component {
                     <TouchableOpacity
                         onPress={() => this.navScreen('EditProfile')}>
                         <WrapImg>
-                            <ImgProfile source={ defaultProfile }/>
+                            <ImgProfile source={{ uri: this.state.photo }}/>
                         </WrapImg>
                     </TouchableOpacity>
     

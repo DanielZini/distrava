@@ -30,6 +30,12 @@ export const ImgProfile = styled.Image`
     height: 100%;
     resize-mode: cover;
 `
+export const Label = styled.Text`
+    margin: 15px 5px;
+    font-size: 18px;
+    font-family: ${cmStyles.fontRegular};
+    color: #333333;
+`
 export const LabelEdit = styled.Text`
     position: absolute;
     left: 0;

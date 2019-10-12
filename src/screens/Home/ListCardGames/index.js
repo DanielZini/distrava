@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import cmStyles from '../../../commonStyles';
 import Card from '../../../components/Card';
 import Button from '../../../components/Button';
+import { server } from '../../../common';
 import {
     Container,
     Content,
