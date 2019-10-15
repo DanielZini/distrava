@@ -1,11 +1,13 @@
 import React from 'react';
+import cmStyles from '../../../commonStyles';
 import { View, Keyboard, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import defaultProfile from '../../../../assets/img/defaultPerson.png';
+import CustomModal from '../../../components/CustomModal';
+import loadingGif from '../../../../assets/img/loading.gif';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import cmStyle from '../../../commonStyles';
-import FlashMessage, { showMessage, hideMessage } from 'react-native-flash-message';
 import ImagePicker from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -19,6 +21,8 @@ import {
     Label,
     TouchArea,
     WrapForm,
+    LoadingGif,
+    TextModal,
 } from './styles';
 
 class Edit extends React.Component {
@@ -31,6 +35,8 @@ class Edit extends React.Component {
     };
 
     state = {
+        modalLoadingVisible: false,
+        modalSuccessRegisterVisible: false,
         preview: '',
         image: '',
         name: '',
@@ -42,12 +48,12 @@ class Edit extends React.Component {
     }
 
     componentDidMount = () => {
-        
         this.loadUser();
     }
 
     loadUser = async () => {
         try {
+
             const res = await axios.get(`${server}/get-user`);
 
             this.setState({
@@ -70,6 +76,8 @@ class Edit extends React.Component {
         
         try{
 
+            this.setState({ modalLoadingVisible: true });
+
             if(this.state.image){
                 const data = new FormData();
                 data.append('file', this.state.image);
@@ -89,17 +97,19 @@ class Edit extends React.Component {
 
             await axios.post(`${server}/update-user`, newUserData);
 
-            showMessage({
-                message: "Cadastro atualizado!",
-                type: "success",
-            });
-        }catch(err){
+            this.setState({ modalLoadingVisible: false });
+            this.setState({ modalSuccessRegisterVisible: true });
 
-            showMessage({
-                message: "Algo deu errado! Por favor, preencha os campos corretamente.",
-                type: "danger",
-                duration: 3000
-            });
+            setTimeout(() => {
+                this.setState({ modalSuccessRegisterVisible: false });
+                this.props.navigation.goBack();
+            }, 1500);
+
+        }catch(err){
+            this.setState({ modalLoadingVisible: false });
+            this.setState({ modalSuccessRegisterVisible: false });
+            showError("Algo deu errado! Por favor, preencha os campos corretamente.");
+
         }
 
     };
@@ -154,6 +164,20 @@ class Edit extends React.Component {
     render(){
         return(
             <Container>
+
+                <CustomModal
+                    modalVisible={this.state.modalLoadingVisible}
+                    disabledClose={true}>
+                    <LoadingGif source={loadingGif} />
+                    <TextModal>Atualizando...</TextModal>
+                </CustomModal>
+                <CustomModal
+                    modalVisible={this.state.modalSuccessRegisterVisible}
+                    disabledClose={true}>
+                    <IconAwesome name='thumbs-o-up' size={50} color={cmStyles.cl.primary} />
+                    <TextModal>Perfil atualizado!</TextModal>
+                </CustomModal>
+
                 <ScrollView>
                     <Content>
 
@@ -220,7 +244,6 @@ class Edit extends React.Component {
 
                     </Content>
                 </ScrollView>
-                <FlashMessage position="top" />
             </Container>
         )
     }

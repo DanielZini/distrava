@@ -25,7 +25,6 @@ export default props => {
                 </WrapPlatform>
                 <GameImage source={{ uri: props.gameSrc }} />
 
-
                 <WrapTitle>
                     <Title>{props.title}</Title>
 

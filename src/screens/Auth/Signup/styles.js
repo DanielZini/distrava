@@ -24,5 +24,16 @@ export const TextInfo = styled.Text`
 `
 export const WrapForm = styled.View`
     width: 350px;
-    max-width: 100%
+    max-width: 100%;
+`
+export const LoadingGif = styled.Image`
+    height: 70px;
+    resize-mode: contain;
+`
+export const TextModal = styled.Text`
+    font-family: ${cmStyles.fontBold};
+    font-size: 18px;
+    text-align: center;
+    margin-top: 15px;
+    color: ${cmStyles.cl.primary};
 `

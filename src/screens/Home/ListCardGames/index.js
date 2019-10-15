@@ -1,10 +1,12 @@
 import React from 'react';
-import { Animated } from 'react-native';
+import { Animated, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import cmStyles from '../../../commonStyles';
 import Card from '../../../components/Card';
+import loafingGif from '../../../../assets/img/loading.gif';
 import Button from '../../../components/Button';
 import { server } from '../../../common';
+import axios from 'axios';
 import {
     Container,
     Content,
@@ -13,43 +15,29 @@ import {
     TextButton,
     EmptyAlert,
     AnimatedView,
+    WrapLoadingBg,
+    BgLoading,
 } from './styles';
 
-// config car game --------
-let gameName = 'The Legend of Zelda: Ocarina of Time 3D'
-
-let gameImageId = 'co1nl5';
-const gameUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big_2x/' + gameImageId + '.jpg';
-
-let platformImageId = 'pl6o';
-const platformUri = 'https://images.igdb.com/igdb/image/upload/t_cover_big/' + platformImageId + '.png';
-
-const mocListGame = [
+const defaultState = [
     {
         id: 1,
-        address: 'Indaiatuba / SP',
-        gameName: 'The Legend of Zelda: Ocarina of Time 3D',
-        gameUri: gameUri,
-        platformUri: platformUri,
-        ratingBox: 5,
-        ratingMedia: 5,
-        ratingManual: 5,
-    },
-    {
-        id: 2,
-        address: 'Indaiatuba / SP',
-        gameName: 'The Legend of Zelda: Ocarina of Time 3D',
-        gameUri: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1p98.jpg',
-        platformUri: platformUri,
-        ratingBox: 5,
-        ratingMedia: 5,
-        ratingManual: 5,
+        address: '',
+        gameName: '',
+        gameUri: '',
+        platformUri: '',
+        ratingBox: '',
+        ratingMedia: '',
+        ratingManual: '',
+        city: '',
+        state: ''
     },
 ]
+
 class Main extends React.Component {
 
     state = {
-        listGame: [],
+        listGame: defaultState,
         buttonDisabled: true,
     }
 
@@ -70,16 +58,25 @@ class Main extends React.Component {
         });
     }
 
-    loadGames = () =>{
+    loadGames = async () =>{
 
-        // adiciona indice de animação á cada jogo da lista -----------
-        const newListMocGames = mocListGame.map(game => {
-            game.animatedMove = new Animated.ValueXY({ x: 0, y: 0 });
-            // game.animatedOpacity = new Animated.Value(1);
-            return game
-        })
+        try {
+            const res = await axios.get(`${server}/list-main-cards-games`);
 
-        this.setState({ listGame: newListMocGames } )        
+            this.setState({ listGames: res.data })
+
+            // adiciona indice de animação á cada jogo da lista -----------
+            const newListGames = res.data.map(game => {
+                game.animatedMove = new Animated.ValueXY({ x: 0, y: 0 });
+                // game.animatedOpacity = new Animated.Value(1);
+                return game
+            })
+    
+            this.setState({ listGame: newListGames } )        
+        } catch (err) {
+            showError(err);
+        }
+
     }
 
     addGame = () =>{
@@ -87,14 +84,28 @@ class Main extends React.Component {
         Animated.spring(this.state.listGame[0].animatedMove, {
             toValue: { x: 0, y: 500 },
             speed: 3,
-            // tension: 30,
-            bounciness: 5,
-        }).start(() =>{
+        }).start(async () =>{
 
             // faz as paradas
             const [game, ...rest] = this.state.listGame;
-            this.setState({ listGame: rest });
 
+            try {
+
+                await axios.post(`${server}/wanted-game`, {
+                    idUserGameOwner: game.user_id,
+                    gameId: game.id
+                });
+
+            } catch (err) {
+                console.log(err);
+            }
+
+            this.setState({ listGame: rest ? rest : defaultState });
+
+            if (rest.length < 2){
+                this.loadGames();   
+            }
+            
         });
     }
 
@@ -103,13 +114,25 @@ class Main extends React.Component {
         Animated.spring(this.state.listGame[0].animatedMove, {
             toValue: { x: 500, y: 0 },
             speed: 3,
-            // tension: 30,
-            bounciness: 5,
-        }).start(() => {
+        }).start(async () => {
             // faz as paradas
             const [game, ...rest] = this.state.listGame;
 
-            this.setState({ listGame: rest });
+            try {
+
+                await axios.post(`${server}/rejected-game`, {
+                    gameId: game.id
+                });
+
+            } catch (err) {
+                console.log(err);
+            }
+
+            this.setState({ listGame: rest ? rest : defaultState });
+
+            if (rest.length < 2) {
+                this.loadGames();
+            }
 
         });
     }
@@ -125,29 +148,29 @@ class Main extends React.Component {
                     <EmptyAlert>Não há mais jogos para trocar! =[</EmptyAlert>
 
                     :
-                    this.state.listGame.map((game, index) => (
-                        <AnimatedView
-                            key={game.id}
-                            style={[game.animatedMove.getLayout(), { zIndex: this.state.listGame.length - index }]}>
-                            <Card
-                                id={game.id}
-                                address={game.address}
-                                gameSrc={game.gameUri}
-                                platformSrc={game.platformUri}
-                                title={game.gameName}
-                                onPress={() => this.navigationScreen(
-                                    game.gameName, game.gameUri, game.address, game.platformUri, game.ratingBox, game.ratingMedia, game.ratingManual
-                                )} />
-                        </AnimatedView>
-                    ))
-                }
                     
-                    {/* <Card
-                        gameSrc={gameUri}
-                        platformSrc={platformUri}
-                        title={gameName}
-                        order={1}
-                        onPress={() => this.navigationScreen(gameName, gameUri, platformUri, 5, 4, 1)} /> */}
+                    <View style={{width: '100%', height: '100%'}}>
+                        <WrapLoadingBg>
+                            <BgLoading source={loafingGif} />
+                        </WrapLoadingBg>
+                        {this.state.listGame.map((game, index) => (
+                            <AnimatedView
+                                key={game.id}
+                                style={[game.animatedMove && game.animatedMove.getLayout(), { zIndex: this.state.listGame.length - index }]}>
+                                <Card
+                                    id={game.id}
+                                    address={game.city + '/' + game.state}
+                                    gameSrc={game.photo}
+                                    platformSrc={game.platform}
+                                    title={game.name}
+                                    userId={game.user_id}
+                                    onPress={() => this.navigationScreen(
+                                        game.name, game.photo, game.city + '/' + game.state, game.platform, game.rating_box, game.rating_media, game.rating_manual
+                                    )} />
+                            </AnimatedView>
+                        ))}
+                    </View>
+                }
                 </Content>
 
                 {this.state.listGame.length > 0 && (

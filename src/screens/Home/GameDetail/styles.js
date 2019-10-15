@@ -36,10 +36,10 @@ export const WrapPlatform = styled.View`
     position: absolute;
     top: 0;
     right: 0;
-    width: 120px;
-    height: 70px;
+    width: 140px;
+    height: 90px;
     border-bottom-left-radius: 10px;
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, .9);
     padding: 5px;
 `
 export const PlatformImage = styled.Image`
@@ -63,7 +63,8 @@ export const WrapTitle = styled.View`
 `
 export const Title = styled.Text`
     font-family: ${cmStyles.fontRegular};
-    font-size: 18px;
+    font-size: 22px;
+    margin-bottom: 5px;
     color: ${cmStyles.cl.primary};
     text-align: center;
 `
@@ -75,7 +76,7 @@ export const WrapAddress = styled.View`
 `
 export const Address = styled.Text`
     font-family: ${cmStyles.fontRegular};
-    font-size: 14px;
+    font-size: 12px;
     color: #333333;
     margin-left: 5px;
     text-transform: uppercase;
@@ -94,7 +95,7 @@ export const ItemRating = styled.View`
 export const Label = styled.Text`
     text-align: center;
     font-family: ${cmStyles.fontRegular};
-    font-size: 13px;
+    font-size: 14px;
     color: #FFFFFF;
     margin-bottom: 2px;
 `

@@ -30,9 +30,7 @@ class Copyright extends React.Component {
                         <TextAbout>
                             Este aplicativo é gratuito e foi desenvolvido com o objetivo de incentivar o consumo colaborativo de jogos de video game.
                         </TextAbout>
-                        <TextAbout>
-                            A ideia de um aplicativo que facilite a permuta de jogos eletrônicos (em mídia física) partiu da premissa de tornar esse lazer viável para um maior número de pessoas. Uma plataforma colaborativa que ajudará pessoas com mesmos interesses a se comunicarem e promoverem trocas entre si, diminuindo o consumo excessivo de produtos que podem ser reaproveitados. 
-                        </TextAbout>
+
                         <TextAbout>
                             Desenvolvido por: <Bold>Daniel Zini da Silva</Bold>.
                         </TextAbout>

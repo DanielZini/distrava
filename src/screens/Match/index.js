@@ -88,7 +88,6 @@ class Match extends Component {
         }
 
         this.setModalVisible(false)
-
     }
 
     render(){

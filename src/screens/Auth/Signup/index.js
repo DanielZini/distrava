@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Keyboard } from 'react-native';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
-import FlashMessage, { showMessage, hideMessage } from 'react-native-flash-message';
 import { ScrollView } from 'react-native-gesture-handler';
+import cmStyles from '../../../commonStyles';
+import CustomModal from '../../../components/CustomModal';
+import loadingGif from '../../../../assets/img/loading.gif';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { server, showError } from '../../../common';
 import {
@@ -11,6 +14,8 @@ import {
     WrapForm,
     TextInfo,
     Content,
+    LoadingGif,
+    TextModal,
 } from './styles';
 
 class Signup extends React.Component {
@@ -22,6 +27,8 @@ class Signup extends React.Component {
     };
 
     state = {
+        modalLoadingVisible: false,
+        modalSuccessRegisterVisible: false,
         name: '',
         city: '',
         state: '',
@@ -34,6 +41,9 @@ class Signup extends React.Component {
         Keyboard.dismiss();
 
         try {
+
+            this.setState({ modalLoadingVisible: true });
+            
             await axios.post(`${server}/signup`, {
                 name: this.state.name,
                 city: this.state.city,
@@ -43,13 +53,13 @@ class Signup extends React.Component {
                 password: this.state.password
             });
 
-            showMessage({
-                message: "Conta Criada!",
-                type: "success",
-            });
+            this.setState({ modalLoadingVisible: false });
+            this.setState({ modalSuccessRegisterVisible: true });
+
             setTimeout(() => {
+                this.setState({ modalSuccessRegisterVisible: false });
                 this.props.navigation.goBack();
-            }, 1000);
+            }, 1500);
 
         } catch (err) {
             showError(err);
@@ -58,11 +68,37 @@ class Signup extends React.Component {
 
 
     render() {
+
+        const validations = []
+
+        validations.push(this.state.name);
+        validations.push(this.state.city);
+        validations.push(this.state.state);
+        validations.push(this.state.email);
+        validations.push(this.state.whatsapp);
+        validations.push(this.state.password);
+
+        const validForm = validations.reduce((all, v) => all && v);
+        
         return (
             <Container>
+
+                <CustomModal
+                    modalVisible={this.state.modalLoadingVisible}
+                    disabledClose={true}>
+                    <LoadingGif source={loadingGif} />
+                    <TextModal>Cadastrando...</TextModal>
+                </CustomModal>
+                <CustomModal
+                    modalVisible={this.state.modalSuccessRegisterVisible}
+                    disabledClose={true}>
+                    <IconAwesome name='thumbs-o-up' size={50} color={cmStyles.cl.primary} />
+                    <TextModal>Cadastro realizado com sucesso!</TextModal>
+                </CustomModal>
+
                 <ScrollView>
                     <Content>
-                        <TextInfo>Preencha os dados abaixo para se cadastra.</TextInfo>
+                        <TextInfo>Preencha os dados abaixo para se cadastrar.</TextInfo>
 
                         <WrapForm>
                             <Input
@@ -106,6 +142,7 @@ class Signup extends React.Component {
 
                             <View style={{ marginBottom: 10 }}>
                                 <Button
+                                    disabled={ !validForm }
                                     onPress={() => this.createAccount()}>
                                     Criar conta
                                 </Button>
@@ -113,7 +150,6 @@ class Signup extends React.Component {
                         </WrapForm>
                     </Content>
 
-                    <FlashMessage position="top" />
                 </ScrollView>
             </Container>
         )

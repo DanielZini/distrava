@@ -39,12 +39,12 @@ export const WrapTitle = styled.View`
     left: 0;
     right: 0;
     z-index:2;
-    background-color: rgba(255, 255, 255, .85);
+    background-color: rgba(255, 255, 255, .9);
     padding: 10px 15px;
 `
 export const Title = styled.Text`
     font-family: ${cmStyles.fontRegular};
-    font-size: 16px;
+    font-size: 18px;
     color: #333;
     text-align: center;
     color: ${cmStyles.cl.primary};
@@ -58,7 +58,7 @@ export const WrapAddress = styled.View`
 `
 export const Address = styled.Text`
     font-family: ${cmStyles.fontLight};
-    font-size: 12px;
+    font-size: 11px;
     color: #333333;
     margin-left: 5px;
     text-transform: uppercase;

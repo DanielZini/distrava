@@ -1,6 +1,5 @@
 import React from 'react';
 import { TouchableOpacity, AsyncStorage } from 'react-native';
-import defaultProfile from '../../../../assets/img/defaultPerson.png';
 import ButtonMenu from '../../../components/ButtonMenu';
 import axios from 'axios';
 import { server } from '../../../common';

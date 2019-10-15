@@ -214,8 +214,6 @@ class NewGame extends React.Component {
 
                     response.data[0]['platforms'].forEach(el => {
 
-                        console.log(el);
-
                         if(el.id === 49){
                             platformUri = server + '/xone.png'
                         }
@@ -292,7 +290,6 @@ class NewGame extends React.Component {
 
         } catch (err) {
             console.log(err);
-            
         }
     }
 

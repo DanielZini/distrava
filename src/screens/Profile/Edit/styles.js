@@ -32,7 +32,7 @@ export const ImgProfile = styled.Image`
 `
 export const Label = styled.Text`
     margin: 15px 5px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: ${cmStyles.fontRegular};
     color: #333333;
 `
@@ -57,6 +57,16 @@ export const TouchArea = styled.TouchableOpacity`
 `
 export const WrapForm = styled.View`
     width: 350px;
-    max-width: 100%
-
+    max-width: 100%;
+`
+export const LoadingGif = styled.Image`
+    height: 70px;
+    resize-mode: contain;
+`
+export const TextModal = styled.Text`
+    font-family: ${cmStyles.fontBold};
+    font-size: 18px;
+    text-align: center;
+    margin-top: 15px;
+    color: ${cmStyles.cl.primary};
 `

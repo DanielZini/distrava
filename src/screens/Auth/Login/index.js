@@ -53,7 +53,7 @@ class Login extends React.Component {
 
         const validations = []
 
-        validations.push(this.state.email && this.state.email.includes('@'));
+        validations.push(this.state.email);
         validations.push(this.state.password);
         
         const validForm = validations.reduce((all, v) => all && v);
@@ -69,7 +69,7 @@ class Login extends React.Component {
                     <Input icon='person'
                         autoCapitalize='none'
                         placeholder='E-mail'
-                        // keyboardType="email-address"
+                        keyboardType="email-address"
                         value={this.state.email}
                         onChangeText={email => this.setState({ email })} />
                     <Input icon='lock'
