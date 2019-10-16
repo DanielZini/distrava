@@ -1,8 +1,10 @@
 import React from 'react';
-import { Animated, View } from 'react-native';
+import { Animated, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import cmStyles from '../../../commonStyles';
 import Card from '../../../components/Card';
+import CustomModal from '../../../components/CustomModal';
 import loafingGif from '../../../../assets/img/loading.gif';
 import Button from '../../../components/Button';
 import { server } from '../../../common';
@@ -17,9 +19,15 @@ import {
     AnimatedView,
     WrapLoadingBg,
     BgLoading,
+    TitleModalMatch,
+    WrapGames,
+    Game,
+    WrapIcon,
+    IconExchange,
+    ButtonReload
 } from './styles';
 
-const defaultState = [
+const defaultStateListGames = [
     {
         id: 1,
         address: '',
@@ -34,16 +42,24 @@ const defaultState = [
     },
 ]
 
+const defaultStateMatch = [
+    {
+        ownerGamePhoto: '',
+        wantedGamePhoto: ''
+    },
+]
+
 class Main extends React.Component {
 
     state = {
-        listGame: defaultState,
-        buttonDisabled: true,
+        buttonDisable: true,
+        listGame: defaultStateListGames,
+        matchGames: defaultStateMatch,
+        modalVisible: false,
     }
 
     componentDidMount(){
         this.loadGames();
-        this.setState({ buttonDisabled: false })
     }
 
     navigationScreen = (name, photo, address, platform, ratingBox, ratingMedia, ratingManual) => {
@@ -59,7 +75,8 @@ class Main extends React.Component {
     }
 
     loadGames = async () =>{
-
+        this.setState({ listGames: defaultStateListGames })
+        
         try {
             const res = await axios.get(`${server}/list-main-cards-games`);
 
@@ -72,63 +89,76 @@ class Main extends React.Component {
                 return game
             })
     
-            this.setState({ listGame: newListGames } )        
+            this.setState({ listGame: newListGames, buttonDisable: false } )        
         } catch (err) {
             showError(err);
         }
 
     }
 
-    addGame = () =>{
+    addGame = async () =>{
 
-        Animated.spring(this.state.listGame[0].animatedMove, {
+        const [game, ...rest] = this.state.listGame;
+        this.setState({ buttonDisable: true })
+
+        Animated.timing(this.state.listGame[0].animatedMove, {
             toValue: { x: 0, y: 500 },
-            speed: 3,
+            duration: 400
         }).start(async () =>{
-
-            // faz as paradas
-            const [game, ...rest] = this.state.listGame;
 
             try {
 
-                await axios.post(`${server}/wanted-game`, {
+                const res = await axios.post(`${server}/wanted-game`, {
                     idUserGameOwner: game.user_id,
                     gameId: game.id
                 });
 
+                // ITS A MATCCCHHHHHH
+                if (res.data) {
+                    await this.setState({
+                        matchGames: {
+                            ownerGamePhoto: res.data[0].ownerGamePhoto,
+                            wantedGamePhoto: res.data[0].wantedGamePhoto,
+                        },
+                        modalVisible: true
+                    })
+                }
+
             } catch (err) {
-                console.log(err);
+                this.setState({ modalVisible: true })
             }
 
-            this.setState({ listGame: rest ? rest : defaultState });
+            this.setState({ listGame: rest ? rest : defaultStateListGames, buttonDisable: false });
 
-            if (rest.length < 2){
-                this.loadGames();   
+            if (rest.length < 2) {
+                this.loadGames();
             }
             
-        });
+        })
+
     }
 
     nextGame = () =>{
 
-        Animated.spring(this.state.listGame[0].animatedMove, {
+        const [game, ...rest] = this.state.listGame;
+        this.setState({ buttonDisable: true })
+
+        Animated.timing(this.state.listGame[0].animatedMove, {
             toValue: { x: 500, y: 0 },
-            speed: 3,
+            duration: 400
         }).start(async () => {
-            // faz as paradas
-            const [game, ...rest] = this.state.listGame;
 
             try {
 
                 await axios.post(`${server}/rejected-game`, {
                     gameId: game.id
-                });
+                });   
 
             } catch (err) {
                 console.log(err);
             }
 
-            this.setState({ listGame: rest ? rest : defaultState });
+            this.setState({ listGame: rest ? rest : defaultStateListGames, buttonDisable: false });
 
             if (rest.length < 2) {
                 this.loadGames();
@@ -140,15 +170,37 @@ class Main extends React.Component {
     render(){
         return(
             <Container>
+
+                <CustomModal
+                    modalVisible={this.state.modalVisible}
+                    closeModal={() => this.setState({ modalVisible: false })}>
+                    <TitleModalMatch>Deu Troca!</TitleModalMatch>
+
+                    <WrapGames>
+                        <Game source={{ uri: this.state.matchGames.ownerGamePhoto }} />
+                        <WrapIcon>
+                            <IconExchange name='swap-horiz' />
+                        </WrapIcon>
+                        <Game source={{ uri: this.state.matchGames.wantedGamePhoto }} />
+                    </WrapGames>
+                </CustomModal>
+
                 <Content>
 
                 {
                     this.state.listGame.length === 0 ?
-                    
-                    <EmptyAlert>Não há mais jogos para trocar! =[</EmptyAlert>
+                    <View style={{ justifyContent: "center", alignItems: "center"}}>
+                        <EmptyAlert>Não há mais jogos para trocar! =[</EmptyAlert>
+
+                        <ButtonReload>
+                            <TouchableOpacity onPress={() => this.loadGames()}>
+                                <SimpleLineIcons name="reload" size={30} color="#FFFFFF" />
+                            </TouchableOpacity>
+                        </ButtonReload>
+                    </View>
 
                     :
-                    
+
                     <View style={{width: '100%', height: '100%'}}>
                         <WrapLoadingBg>
                             <BgLoading source={loafingGif} />
@@ -156,7 +208,11 @@ class Main extends React.Component {
                         {this.state.listGame.map((game, index) => (
                             <AnimatedView
                                 key={game.id}
-                                style={[game.animatedMove && game.animatedMove.getLayout(), { zIndex: this.state.listGame.length - index }]}>
+                                style={{
+                                    top: game.animatedMove && game.animatedMove.y, 
+                                    right: game.animatedMove && game.animatedMove.x, 
+                                    zIndex: this.state.listGame.length - index
+                                }}>
                                 <Card
                                     id={game.id}
                                     address={game.city + '/' + game.state}
@@ -178,7 +234,7 @@ class Main extends React.Component {
                     <Footer>
                         <WrapButton>
                             <Button
-                                disabled={this.state.buttonDisabled}
+                                disabled={this.state.buttonDisable}
                                 custom={true}
                                 btColor={cmStyles.cl.second}
                                 onPress={() => this.nextGame()}>
@@ -188,7 +244,7 @@ class Main extends React.Component {
                         </WrapButton>
                         <WrapButton>
                             <Button
-                                disabled={this.state.buttonDisabled}
+                                disabled={this.state.buttonDisable}
                                 custom={true}
                                 onPress={() => this.addGame()}>
                                 <Icon name='swap-horiz' color='#FFF' size={35} />

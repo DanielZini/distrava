@@ -1,7 +1,7 @@
 import { Alert, Platform } from 'react-native';
 
 // Device
-const server = 'http://192.168.0.107:3000';
+const server = 'http://192.168.10.171:3000';
 
 // Online
 // const server = 'https://distrava.herokuapp.com';

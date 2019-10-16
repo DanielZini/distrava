@@ -1,6 +1,7 @@
 import cmStyles from '../../../commonStyles';
 import styled from 'styled-components';
 import { Animated } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const Container = styled.View`
     width: 100%;
@@ -45,6 +46,16 @@ export const EmptyAlert = styled.Text`
     padding: 0 30px;
     text-align: center;
 `
+export const ButtonReload = styled.View`
+    margin-top: 15px;
+    background-color: ${cmStyles.cl.primary};
+    border: 3px solid #FFFFFF;
+    width: 55px;
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+`
 export const AnimatedView = styled(Animated.View)`
     /* flex: 1; */
     position: absolute;
@@ -70,4 +81,43 @@ export const WrapLoadingBg = styled.View`
 export const BgLoading = styled.Image`
     resize-Mode: contain;
     width: 100px;
+`
+export const TitleModalMatch = styled.Text`
+    font-family: ${cmStyles.fontBold};
+    font-size: 25px;
+    color: ${cmStyles.cl.primary};
+    margin-bottom: 15px;
+`
+export const WrapGames = styled.View`
+    width: 100%;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 15px;
+    flex-direction: row;
+`
+export const Game = styled.Image`
+    width: 48%;
+    height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+    resize-mode: cover;
+`
+export const WrapIcon = styled.View`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    margin-left: -25px;
+    margin-top: -25px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 2px solid #FFFFFF;
+    background-color: rgba(${cmStyles.cl.secondRGB}, .9);
+`
+export const IconExchange = styled(Icon)`
+    font-size: 40px;
+    color: #FFFFFF;
 `
