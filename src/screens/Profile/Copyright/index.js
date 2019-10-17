@@ -24,43 +24,41 @@ class Copyright extends React.Component {
     render(){
         return(
             <Container>
-                <ScrollView>
-                    <Content>
-                        <Logo source={logo} />
-                        <TextAbout>
-                            Este aplicativo é gratuito e foi desenvolvido com o objetivo de incentivar o consumo colaborativo de jogos de video game.
-                        </TextAbout>
+                <Content>
+                    <Logo source={logo} />
+                    <TextAbout>
+                        Este aplicativo é gratuito e foi desenvolvido com o objetivo de incentivar o consumo colaborativo de jogos de video game.
+                    </TextAbout>
 
-                        <TextAbout>
-                            Desenvolvido por: <Bold>Daniel Zini da Silva</Bold>.
-                        </TextAbout>
+                    <TextAbout>
+                        Desenvolvido por: <Bold>Daniel Zini da Silva</Bold>.
+                    </TextAbout>
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ marginHorizontal: 5}}>
-                                <TouchableOpacity onPress={() => Linking.openURL('https://github.com/DanielZini')}>
-                                    <SocialLink>
-                                        <Icon name='github' size={30} color='#FFFFFF' />
-                                    </SocialLink>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ marginHorizontal: 5}}>
-                                <TouchableOpacity onPress={() => Linking.openURL('https://www.linkedin.com/in/daniel-zini-11620aa5/')}>
-                                    <SocialLink>
-                                        <Icon name='linkedin' size={30} color='#FFFFFF' />
-                                    </SocialLink>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ marginHorizontal: 5}}>
-                                <TouchableOpacity onPress={() => Linking.openURL('mailto:daniel.zini@hotmail.com')}>
-                                    <SocialLink>
-                                        <Icon name='envelope-o' size={30} color='#FFFFFF' />
-                                    </SocialLink>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ marginHorizontal: 5}}>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://github.com/DanielZini')}>
+                                <SocialLink>
+                                    <Icon name='github' size={30} color='#FFFFFF' />
+                                </SocialLink>
+                            </TouchableOpacity>
                         </View>
+                        <View style={{ marginHorizontal: 5}}>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://www.linkedin.com/in/daniel-zini-11620aa5/')}>
+                                <SocialLink>
+                                    <Icon name='linkedin' size={30} color='#FFFFFF' />
+                                </SocialLink>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginHorizontal: 5}}>
+                            <TouchableOpacity onPress={() => Linking.openURL('mailto:daniel.zini@hotmail.com')}>
+                                <SocialLink>
+                                    <Icon name='envelope-o' size={30} color='#FFFFFF' />
+                                </SocialLink>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
 
-                    </Content>
-                </ScrollView>
+                </Content>
             </Container>
         )
     }

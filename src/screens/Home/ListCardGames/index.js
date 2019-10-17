@@ -167,6 +167,10 @@ class Main extends React.Component {
         });
     }
 
+    navChanges = () => {
+        this.setState({ modalVisible: false });
+        this.props.navigation.navigate('Match');
+    }
     render(){
         return(
             <Container>
@@ -183,6 +187,7 @@ class Main extends React.Component {
                         </WrapIcon>
                         <Game source={{ uri: this.state.matchGames.wantedGamePhoto }} />
                     </WrapGames>
+                    <Button onPress={() => this.navChanges()}>Ir para trocas</Button>
                 </CustomModal>
 
                 <Content>

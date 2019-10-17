@@ -125,7 +125,7 @@ class Signup extends React.Component {
 
                             <Input
                                 type='cel-phone'
-                                placeholder='Whats App'
+                                placeholder='Celular'
                                 value={this.state.whatsapp}
                                 onChangeText={whatsapp => this.setState({ whatsapp })} />
                             <Input

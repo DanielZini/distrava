@@ -108,7 +108,7 @@ class Games extends React.Component {
                                     imgPlatform={game.platform}
                                     imgGame={game.photo}
                                     status={game.status}
-                                    onOpen={() =>this.navGameDetail(game.name, game.photo, game.platform, game.ratingBox, game.ratingMedia, game.ratingManual, myGame = true)} />
+                                    onOpen={() =>this.navGameDetail(game.name, game.photo, game.platform, game.rating_box, game.rating_media, game.rating_manual, myGame = true)} />
                             ))
                     }
                     
