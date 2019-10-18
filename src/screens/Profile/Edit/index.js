@@ -1,6 +1,6 @@
 import React from 'react';
 import cmStyles from '../../../commonStyles';
-import { View, Keyboard, AsyncStorage } from 'react-native';
+import { View, Keyboard, AsyncStorage, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomModal from '../../../components/CustomModal';
 import loadingGif from '../../../../assets/img/loading.gif';
@@ -36,7 +36,9 @@ class Edit extends React.Component {
 
     state = {
         modalLoadingVisible: false,
-        modalSuccessRegisterVisible: false,
+        modalLoadingText: '',
+        modalResponseMesageVisible: false,
+        modalExcludeAccountVisible: false,
         preview: '',
         image: '',
         name: '',
@@ -76,7 +78,7 @@ class Edit extends React.Component {
         
         try{
 
-            this.setState({ modalLoadingVisible: true });
+            this.setState({ modalLoadingVisible: true, modalLoadingText: 'Atualizando...' });
 
             if(this.state.image){
                 const data = new FormData();
@@ -98,16 +100,16 @@ class Edit extends React.Component {
             await axios.post(`${server}/update-user`, newUserData);
 
             this.setState({ modalLoadingVisible: false });
-            this.setState({ modalSuccessRegisterVisible: true });
+            this.setState({ modalResponseMesageVisible: true });
 
             setTimeout(() => {
-                this.setState({ modalSuccessRegisterVisible: false });
+                this.setState({ modalResponseMesageVisible: false });
                 this.props.navigation.goBack();
             }, 1500);
 
         }catch(err){
             this.setState({ modalLoadingVisible: false });
-            this.setState({ modalSuccessRegisterVisible: false });
+            this.setState({ modalResponseMesageVisible: false });
             showError("Algo deu errado! Por favor, preencha os campos corretamente.");
 
         }
@@ -155,6 +157,48 @@ class Edit extends React.Component {
         );
     };
 
+    deleteAccount = async () => {
+
+        Alert.alert(
+            'Alerta!',
+            'Deseja realmente excluir sua conta? Essa ação é irreversível',
+            [
+                {
+                    text: 'Cancelar',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {
+                    text: 'Excluir', onPress: async () => {
+
+                        this.setState({ modalLoadingVisible: true, modalLoadingText: 'Excluindo...' });
+
+                        try {
+                            await axios.delete(`${server}/delete-user`);
+                            
+                            delete axios.defaults.headers.common['Authorization'];
+                            AsyncStorage.removeItem('userData');
+
+                            this.setState({ modalLoadingVisible: false });
+                            this.setState({ modalExcludeAccountVisible: true });
+
+                            setTimeout(() => {
+                                this.setState({ modalExcludeAccountVisible: false });
+                                this.props.navigation.navigate('LoadingPage');
+                            }, 2000);
+
+                        } catch (err) {
+                            showError(err);
+                        }
+
+                    }
+                },
+            ],
+            { cancelable: false },
+        );
+
+    }
+
     logout = () => {
         delete axios.defaults.headers.common['Authorization'];
         AsyncStorage.removeItem('userData');
@@ -169,13 +213,19 @@ class Edit extends React.Component {
                     modalVisible={this.state.modalLoadingVisible}
                     disabledClose={true}>
                     <LoadingGif source={loadingGif} />
-                    <TextModal>Atualizando...</TextModal>
+                    <TextModal>{this.state.modalLoadingText}</TextModal>
                 </CustomModal>
                 <CustomModal
-                    modalVisible={this.state.modalSuccessRegisterVisible}
+                    modalVisible={this.state.modalResponseMesageVisible}
                     disabledClose={true}>
                     <IconAwesome name='thumbs-o-up' size={50} color={cmStyles.cl.primary} />
                     <TextModal>Perfil atualizado!</TextModal>
+                </CustomModal>
+                <CustomModal
+                    modalVisible={this.state.modalExcludeAccountVisible}
+                    disabledClose={true}>
+                    <IconAwesome name='thumbs-o-up' size={50} color={cmStyles.cl.primary} />
+                    <TextModal>Perfil excluído! Até mais.</TextModal>
                 </CustomModal>
 
                 <ScrollView>
@@ -235,10 +285,20 @@ class Edit extends React.Component {
                                     Atualizar
                                 </Button>
                             </View>
+
+                            <View style={{ marginBottom: 20 }}>
+                                <Button
+                                    onPress={() => this.logout()}
+                                    btColor={cmStyle.cl.second}>
+                                    Sair
+                                </Button>
+                            </View>
+
                             <Button
-                                onPress={() => this.logout()}
-                                btColor={cmStyle.cl.second}>
-                                Sair
+                                onPress={() => this.deleteAccount()}
+                                btColor="#FFFFFF"
+                                txtColor="#333333">
+                                Excluir conta 
                             </Button>
                         </WrapForm>
 

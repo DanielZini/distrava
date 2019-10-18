@@ -81,7 +81,7 @@ class GameDetail extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={ratingBox}
-                                    size={17}
+                                    size={15}
                                     showRating={false}
                                 />
                             </ItemRating>
@@ -92,7 +92,7 @@ class GameDetail extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={ratingMedia}
-                                    size={17}
+                                    size={15}
                                     showRating={false}
                                 />
                             </ItemRating>
@@ -103,7 +103,7 @@ class GameDetail extends React.Component {
                                     type='star'
                                     count={5}
                                     defaultRating={ratingManual}
-                                    size={17}
+                                    size={15}
                                     showRating={false}
                                 />
                             </ItemRating>

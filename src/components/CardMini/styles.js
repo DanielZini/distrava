@@ -52,8 +52,8 @@ export const WrapPlatform = styled.View`
     position: absolute;
     top: 0;
     right: 0;
-    width: 80px;
-    height: 50px;
+    width: 90px;
+    height: 60px;
     border-bottom-left-radius: 10px;
     background-color: rgba(255, 255, 255, .9);
     z-index: 2;
@@ -63,7 +63,7 @@ export const PlatformImage = styled.Image`
     width: 100%;
     height: 100%;
     overflow: hidden;
-    resize-Mode: cover;
+    resize-Mode: contain;
 `
 export const BigPlatformImage = styled.Image`
     width: 90%;

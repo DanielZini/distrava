@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, Linking } from 'react-native';
+import { CheckBox } from 'react-native-elements'
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import ButtonLink from '../../../components/ButtonLink';
 import { ScrollView } from 'react-native-gesture-handler';
 import cmStyles from '../../../commonStyles';
 import CustomModal from '../../../components/CustomModal';
@@ -35,6 +37,7 @@ class Signup extends React.Component {
         email: '',
         whatsapp: '',
         password: '',
+        policeChecked: false
     }
 
     createAccount = async () => {
@@ -77,6 +80,7 @@ class Signup extends React.Component {
         validations.push(this.state.email);
         validations.push(this.state.whatsapp);
         validations.push(this.state.password);
+        validations.push(this.state.policeChecked);
 
         const validForm = validations.reduce((all, v) => all && v);
         
@@ -125,28 +129,42 @@ class Signup extends React.Component {
 
                             <Input
                                 type='cel-phone'
-                                placeholder='Celular'
+                                placeholder='Celular:'
                                 value={this.state.whatsapp}
                                 onChangeText={whatsapp => this.setState({ whatsapp })} />
                             <Input
                                 autoCapitalize='none'
-                                placeholder='E-mail'
+                                placeholder='E-mail:'
                                 keyboardType="email-address"
                                 value={this.state.email}
                                 onChangeText={email => this.setState({ email })} />
                             <Input
                                 secureTextEntry={true}
-                                placeholder='Senha'
+                                placeholder='Senha:'
                                 value={this.state.password}
                                 onChangeText={password => this.setState({ password })} />
 
-                            <View style={{ marginBottom: 10 }}>
+                            <View style={{ marginTop: 20 }}>
+                                <ButtonLink
+                                    fontSize={14}
+                                    textAlign='center'
+                                    onPress={() => Linking.openURL('https://www.iubenda.com/privacy-policy/29882058?preview=true&an=no&ifr=true&height=800')}>Ler termos de Política e Privacidade
+                                </ButtonLink>
+                            </View>
+
+                            <View style={{ marginBottom: 20, marginTop: 5 }}>
+                                <CheckBox
+                                    title='Aceito os termos de Política e Privacidade'
+                                    checked={this.state.policeChecked}
+                                    onPress={() => this.setState({ policeChecked: !this.state.policeChecked })} />
+                            </View>
+
+
                                 <Button
                                     disabled={ !validForm }
                                     onPress={() => this.createAccount()}>
                                     Criar conta
                                 </Button>
-                            </View>
                         </WrapForm>
                     </Content>
 

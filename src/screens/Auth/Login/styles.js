@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import cmStyles from '../../../commonStyles';
 
 export const Container = styled.View`
     width: 100%;
@@ -20,4 +21,15 @@ export const Logo = styled.Image`
 export const WrapForm = styled.View`
     width: 80%;
     margin-bottom: 15px;
+`
+export const LoadingGif = styled.Image`
+    height: 70px;
+    resize-mode: contain;
+`
+export const TextModal = styled.Text`
+    font-family: ${cmStyles.fontBold};
+    font-size: 18px;
+    text-align: center;
+    margin-top: 15px;
+    color: ${cmStyles.cl.primary};
 `

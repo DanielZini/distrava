@@ -13,7 +13,7 @@ export const Content = styled.View`
     justify-content:center;
     align-items: center;
     align-content: center;
-    padding: 50px 20px;
+    padding: 30px 20px;
 `
 export const TextInfo = styled.Text`
     font-family: ${cmStyles.fontRegular};
