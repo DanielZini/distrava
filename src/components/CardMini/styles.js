@@ -11,7 +11,7 @@ export const Card = styled.View`
     height: 100%;
     background-color: #FFFFFF;
     border-radius: 10px;
-    overflow: hidden;
+    /* overflow: hidden; */
     border: 3px;
     border-color: ${props => props.active ? cmStyles.cl.second : '#FFFFFF'};
     shadow-color: #000000;
@@ -82,6 +82,7 @@ export const WrapStatus = styled.View`
     background-color: rgba(0, 0, 0, .7);
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
     padding: 10px;
     z-index: 3;
 `

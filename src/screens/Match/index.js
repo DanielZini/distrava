@@ -76,7 +76,9 @@ class Match extends Component {
 
             showMessage({
                 message: "Troca encerrada!",
-                type: "success",
+                type: "default",
+                backgroundColor: cmStyles.cl.second, // background color
+                color: "#FFFFFF", // text color
             });
         }catch(err){
 

@@ -70,7 +70,7 @@ class Games extends React.Component {
 
                         try{
                             await axios.delete(`${server}/delete-game/${id}`);
-                            Alert.alert('Alerta', 'Jogo foi excluído!');
+                            Alert.alert('Alerta', 'Jogo excluído!');
                             this.loadListGames();
                         } catch(err) {
                             showError(err);

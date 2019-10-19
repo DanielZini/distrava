@@ -16,6 +16,7 @@ import {
     WrapButton,
     TextButton,
     EmptyAlert,
+    TextInfo,
     AnimatedView,
     WrapLoadingBg,
     BgLoading,
@@ -56,10 +57,13 @@ class Main extends React.Component {
         listGame: defaultStateListGames,
         matchGames: defaultStateMatch,
         modalVisible: false,
+        listMyGames: defaultStateListGames
     }
 
     componentDidMount(){
-        this.loadGames();
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            this.loadGames();
+        });
     }
 
     navigationScreen = (name, photo, address, platform, ratingBox, ratingMedia, ratingManual) => {
@@ -78,9 +82,10 @@ class Main extends React.Component {
         this.setState({ listGames: defaultStateListGames })
         
         try {
-            const res = await axios.get(`${server}/list-main-cards-games`);
+            const res           = await axios.get(`${server}/list-main-cards-games`);
+            const resMyGames    =  await axios.get(`${server}/list-users-games`);
 
-            this.setState({ listGames: res.data })
+            this.setState({ listGames: res.data, listMyGames: resMyGames.data })
 
             // adiciona indice de animação á cada jogo da lista -----------
             const newListGames = res.data.map(game => {
@@ -193,20 +198,11 @@ class Main extends React.Component {
                 <Content>
 
                 {
-                    this.state.listGame.length === 0 ?
-                    <View style={{ justifyContent: "center", alignItems: "center"}}>
-                        <EmptyAlert>Não há mais jogos para trocar! =[</EmptyAlert>
+                this.state.listGame.length > 0 ? // verifica se há jogos para trocar 
+                    
+                    this.state.listMyGames.length > 0 ? // verifica se usuário possui jogos cadastrado
 
-                        <ButtonReload>
-                            <TouchableOpacity onPress={() => this.loadGames()}>
-                                <SimpleLineIcons name="reload" size={30} color="#FFFFFF" />
-                            </TouchableOpacity>
-                        </ButtonReload>
-                    </View>
-
-                    :
-
-                    <View style={{width: '100%', height: '100%'}}>
+                    <View style={{ width: '100%', height: '100%' }}>
                         <WrapLoadingBg>
                             <BgLoading source={loafingGif} />
                         </WrapLoadingBg>
@@ -214,8 +210,8 @@ class Main extends React.Component {
                             <AnimatedView
                                 key={game.id}
                                 style={{
-                                    top: game.animatedMove && game.animatedMove.y, 
-                                    right: game.animatedMove && game.animatedMove.x, 
+                                    top: game.animatedMove && game.animatedMove.y,
+                                    right: game.animatedMove && game.animatedMove.x,
                                     zIndex: this.state.listGame.length - index
                                 }}>
                                 <Card
@@ -231,10 +227,39 @@ class Main extends React.Component {
                             </AnimatedView>
                         ))}
                     </View>
+
+                    :
+
+                    <View style={{ justifyContent: "center", alignItems: "center" }}>
+                        <EmptyAlert>Olá, parece que você não cadastrou nenhum jogo ainda!</EmptyAlert>
+                        <TextInfo>Para começar a trocar, cadastre algum jogo.</TextInfo>
+
+                        <Button
+                            custom={true}
+                            onPress={() => this.props.navigation.navigate('NewGame')}>
+                            <Icon name='gamepad' color='#FFF' size={35} />
+                            <TextButton fontSize={17}>Cadastrar jogos</TextButton>
+                        </Button>
+                    </View>
+
+                :
+
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                    <EmptyAlert>Não há mais jogos para trocar! =[</EmptyAlert>
+
+                    <ButtonReload>
+                        <TouchableOpacity onPress={() => this.loadGames()}>
+                            <SimpleLineIcons name="reload" size={30} color="#FFFFFF" />
+                        </TouchableOpacity>
+                    </ButtonReload>
+                </View>
+
+                    
                 }
                 </Content>
 
-                {this.state.listGame.length > 0 && (
+                {this.state.listGame.length > 0 &&
+                    this.state.listMyGames.length > 0 && (
 
                     <Footer>
                         <WrapButton>

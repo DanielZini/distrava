@@ -35,7 +35,7 @@ export const TextButton = styled.Text`
     color: #FFFFFF;
     font-family: ${cmStyles.fontBold};
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: ${props => props.fontSize ? props.fontSize : '12px'};
     margin-left: 5px;
 `
 export const EmptyAlert = styled.Text`
@@ -44,6 +44,14 @@ export const EmptyAlert = styled.Text`
     text-transform: uppercase;
     font-size: 20px;
     padding: 0 30px;
+    text-align: center;
+`
+export const TextInfo = styled.Text`
+    color: #333333;
+    font-family: ${cmStyles.fontRegular};
+    font-size: 20px;
+    padding: 0 30px;
+    margin: 20px 0 10px 0;
     text-align: center;
 `
 export const ButtonReload = styled.View`
