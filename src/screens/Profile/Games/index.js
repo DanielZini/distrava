@@ -70,7 +70,7 @@ class Games extends React.Component {
 
                         try{
                             await axios.delete(`${server}/delete-game/${id}`);
-                            Alert.alert('Alerta', 'Esse jogo foi excluído!');
+                            Alert.alert('Alerta', 'Jogo foi excluído!');
                             this.loadListGames();
                         } catch(err) {
                             showError(err);
@@ -111,14 +111,6 @@ class Games extends React.Component {
                                     onOpen={() =>this.navGameDetail(game.name, game.photo, game.platform, game.rating_box, game.rating_media, game.rating_manual, myGame = true)} />
                             ))
                     }
-                    
-                   
-                    {/* <CardMini
-                        newGame={false}
-                        onExclude={() => excludeGame(1)}
-                        onOpen={() => navGameDetail(gameName, gameUri, platformUri, 5, 4, 1)}
-                        imgPlatform={platformUri}
-                        imgGame={gameUri} /> */}
                     
                 </Container>
             </ScrollView>

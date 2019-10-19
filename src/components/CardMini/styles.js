@@ -11,6 +11,7 @@ export const Card = styled.View`
     height: 100%;
     background-color: #FFFFFF;
     border-radius: 10px;
+    overflow: hidden;
     border: 3px;
     border-color: ${props => props.active ? cmStyles.cl.second : '#FFFFFF'};
     shadow-color: #000000;

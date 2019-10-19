@@ -75,7 +75,7 @@ class Login extends React.Component {
                     modalVisible={this.state.modalLoadingVisible}
                     disabledClose={true}>
                     <LoadingGif source={loadingGif} />
-                    <TextModal>Verificando conta...</TextModal>
+                    <TextModal>Autenticando...</TextModal>
                 </CustomModal>
                 <CustomModal
                     modalVisible={this.state.modalResponseMsgVisible}
