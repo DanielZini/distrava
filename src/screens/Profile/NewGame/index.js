@@ -380,42 +380,44 @@ class NewGame extends React.Component {
 
                     <ItemStep key="2">
                         <DescStep>Atribua uma nota de 1 a 5 para o estado em que se encontra seu jogo</DescStep>
-                        <WrapRating>
-                            <ItemRating>
-                                <Label>Caixa</Label>
-                                <AirbnbRating
-                                    type='star'
-                                    count={5}
-                                    defaultRating={0}
-                                    size={35}
-                                    showRating={false}
-                                    onFinishRating={rating => this.setState({ rateBox: rating })}
-                                />
-                            </ItemRating>
-                            <ItemRating>
-                                <Label>Mídia</Label>
-                                <AirbnbRating
-                                    type='star'
-                                    count={5}
-                                    defaultRating={0}
-                                    size={35}
-                                    showRating={false}
-                                    onFinishRating={rating => this.setState({rateMedia: rating})}
-                                />
-                            </ItemRating>
-                            <ItemRating>
-                                <Label>Manual</Label>
-                                <AirbnbRating
-                                    type='star'
-                                    count={5}
-                                    defaultRating={0}
-                                    size={35}
-                                    showRating={false}
-                                    onFinishRating={rating => this.setState({rateManual: rating})}
-                                />
-                            </ItemRating>
+                        <ScrollView>
+                            <WrapRating>
+                                <ItemRating>
+                                    <Label>Caixa</Label>
+                                    <AirbnbRating
+                                        type='star'
+                                        count={5}
+                                        defaultRating={0}
+                                        size={35}
+                                        showRating={false}
+                                        onFinishRating={rating => this.setState({ rateBox: rating })}
+                                    />
+                                </ItemRating>
+                                <ItemRating>
+                                    <Label>Mídia</Label>
+                                    <AirbnbRating
+                                        type='star'
+                                        count={5}
+                                        defaultRating={0}
+                                        size={35}
+                                        showRating={false}
+                                        onFinishRating={rating => this.setState({rateMedia: rating})}
+                                    />
+                                </ItemRating>
+                                <ItemRating>
+                                    <Label>Manual</Label>
+                                    <AirbnbRating
+                                        type='star'
+                                        count={5}
+                                        defaultRating={0}
+                                        size={35}
+                                        showRating={false}
+                                        onFinishRating={rating => this.setState({rateManual: rating})}
+                                    />
+                                </ItemRating>
 
-                        </WrapRating>
+                            </WrapRating>
+                        </ScrollView>
                     </ItemStep>
 
                     {/* TERMINA STEPS -------------------------------------------------- */}

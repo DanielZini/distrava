@@ -65,6 +65,7 @@ class Signup extends React.Component {
             }, 1500);
 
         } catch (err) {
+            this.setState({ modalLoadingVisible: false });
             showError(err);
         }
     };
